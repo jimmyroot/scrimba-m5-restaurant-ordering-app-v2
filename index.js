@@ -29,47 +29,47 @@ const discountCodes = {
 // ----------------------- //
 
 // Order type btns
-document.getElementById('div-order-type').addEventListener('click', e => {
-    const id = e.target.dataset.id
-    if (id) handleSelectOrderType(e.target)
-})
+// document.getElementById('div-order-type').addEventListener('click', e => {
+//     const id = e.target.dataset.id
+//     if (id) handleSelectOrderType(e.target)
+// })
 
 // Footer nav
-document.getElementById('ul-footer-nav').addEventListener('click', e => {
-    const type = e.target.dataset.type
-    const tag = e.target.tagName
+// document.getElementById('ul-footer-nav').addEventListener('click', e => {
+//     const type = e.target.dataset.type
+//     const tag = e.target.tagName
 
-    // I use this object literal 'switch' style whenever a modal has more than one button
-    const handleClick = {
-        orders: () => {
-            showModal(modalMyOrders, true)
-        },
-        discounts: () => {
-            showModal(modalDiscounts, true)
-        }
-    }
-    if (type) handleClick[type]()
-    if (tag === 'BUTTON') handleSelectNav(e.target)
+//     // I use this object literal 'switch' style whenever a modal has more than one button
+//     const handleClick = {
+//         orders: () => {
+//             showModal(modalMyOrders, true)
+//         },
+//         discounts: () => {
+//             showModal(modalDiscounts, true)
+//         }
+//     }
+//     if (type) handleClick[type]()
+//     if (tag === 'BUTTON') handleSelectNav(e.target)
 
-})
+// })
 
 // Menu filter btns
-ulMenuFilter.addEventListener('click', e => {
-    const filter = e.target.dataset.filter
-    if (filter) handleSelectFilter(e.target, filter)
-})
+// ulMenuFilter.addEventListener('click', e => {
+//     const filter = e.target.dataset.filter
+//     if (filter) handleSelectFilter(e.target, filter)
+// })
 
 // Menu item add btns
-ulMenu.addEventListener('click', e => {
-    const id = e.target.dataset.id
-    if (id) handleAddItemToOrder(id)
-})
+// ulMenu.addEventListener('click', e => {
+//     const id = e.target.dataset.id
+//     if (id) handleAddItemToOrder(id)
+// })
 
 // View basket btn (via parent section element, so we can re-render btn whenever we want)
-secBasket.addEventListener('click', e => {
-    const type = e.target.dataset.type
-    if (type === 'basket') showModal(modalBasket, true)
-})
+// secBasket.addEventListener('click', e => {
+//     const type = e.target.dataset.type
+//     if (type === 'basket') showModal(modalBasket, true)
+// })
 
 // Order confirmation modal, just a close btn (resets order system when clicked)
 modalOrderConfirmation.addEventListener('click', e => {
@@ -564,8 +564,8 @@ const getDiscountPercentage = discountMultiplier => {
 }
 
 // Show the menu
-renderMenu(menuArray, defaultCategory)
-renderViewBasketBtn(basket)
-renderFilterBtns(defaultCategory)
+// renderMenu(menuArray, defaultCategory)
+// renderViewBasketBtn(basket)
+// renderFilterBtns(defaultCategory)
 
 document.querySelector('#div-outer-container').appendChild(header)
