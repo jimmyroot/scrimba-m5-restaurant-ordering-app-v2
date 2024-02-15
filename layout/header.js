@@ -7,9 +7,14 @@ header.innerHTML = `
         <h1 class="h1-title">Cool Beans</h1>
         <p class="p-tagline">Coffee. Code. Hang.</p>
         <p class="p-header-detail">
-                <a href="#"><i class='bx bxs-star' ></i> 4.8 (1,847)</a> • 
+                <a href="#">
+                        <i class='bx bxs-star' ></i>
+                        4.8 (1,847)
+                </a> • 
                 No min. order • 
-                <a href="#">Allergen info</a>
+                <a href="#">
+                        Allergen info
+                </a>
         </p>
 `
 

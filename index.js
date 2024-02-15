@@ -1,8 +1,16 @@
+export { appState }
+
 import menuArray from './data/menu'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 import header from './layout/header'
+import footer from './layout/footer'
 import divInnerContainer from './layout/inner'
-import menu from './layout/menu'
+import menu from './components/menu'
+import btnViewBasket from './components/btnviewbasket'
+import appState from './data/appState'
+import modalViewBasket from './modals/modalviewbasket'
+
+console.log(btnViewBasket)
 
 // Grab what we need from the DOM (only if we use it more than once in the rest of our code)
 const ulMenu = document.getElementById('ul-menu')
@@ -15,12 +23,13 @@ const modalMyOrders = document.getElementById('modal-my-orders')
 const modalDiscounts = document.getElementById('modal-discounts')
 const formCardDet = document.querySelectorAll('#form-card-detail')[0]
 
+
 // Init vars
 let basket = []
 let orderHistory = []
 let discountMultiplier = 0
 let currentStarRating = 1
-const defaultCategory = 'coffee'
+// const defaultCategory = 'coffee'
 const discountCodes = {
     'JAN10': 0.9,
     'OFF20': 0.8
@@ -55,11 +64,7 @@ const discountCodes = {
 
 // })
 
-// Menu filter btns
-// ulMenuFilter.addEventListener('click', e => {
-//     const filter = e.target.dataset.filter
-//     if (filter) handleSelectFilter(e.target, filter)
-// })
+
 
 // Menu item add btns
 // ulMenu.addEventListener('click', e => {
@@ -393,19 +398,10 @@ const handleRemoveItemFromOrder = (instanceIdToRemove) => {
 
 // Highlight selected footer button. If no target is passed in, nothing gets selected and any existing selections
 // are removed
-const handleSelectNav = target => {
-    const targetAlreadySelected = target ? target.classList.contains('selected') : false
-    document.querySelectorAll('.btn-footer-nav.selected').forEach(btn => btn.classList.remove('selected'))
-    if (target && !targetAlreadySelected) target.classList.add('selected')
-}
+
 
 // Take care of cosmetics when selecting a filter button, and re-render the menu to show the selected
 // category
-const handleSelectFilter = (el, filter) => {
-    document.querySelectorAll('.btn-filter-category.selected').forEach(el => el.classList.remove('selected'))
-    el.classList.add('selected')
-    renderMenu(menuArray, filter)
-}
 
 const handlePayment = () => {
     // Reset the card details form, hide checkout modal, show order confirmation modal
@@ -573,3 +569,6 @@ const getDiscountPercentage = discountMultiplier => {
 document.querySelector('#app-container').appendChild(header)
 document.querySelector('#app-container').appendChild(divInnerContainer)
 document.querySelector('#div-inner-container').appendChild(menu)
+document.querySelector('#div-inner-container').appendChild(btnViewBasket)
+document.querySelector('#div-inner-container').appendChild(footer)
+document.querySelector('#div-inner-container').appendChild(modalViewBasket)

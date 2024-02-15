@@ -1,5 +1,5 @@
-const menuFilter = document.createElement('section')
 import menuArray from "../data/menu"
+import * as menuList from './menulist'
 
 // Renders the filter buttons according to existing categories from menuArray
 const renderFilterBtns = (defaultCategory) => {
@@ -19,7 +19,6 @@ const renderFilterBtns = (defaultCategory) => {
     }).join('')
 }
 
-
 const handleClick = (target) => {
     const handleOperation = {
         selectOrderType: () => {
@@ -36,22 +35,7 @@ const handleClick = (target) => {
     if (type) handleOperation[type]()
 }
 
-menuFilter.addEventListener('click', e => {
-    if (e.target.dataset.type) handleClick(e.target)
-})
-
-
-const handleSelectOrderType = (target) => {
-    document.querySelectorAll('.btn-order-type.selected').forEach(el => el.classList.remove('selected'))
-    target.classList.add('selected')
-}
-
-const handleSelectFilter = (el, filter) => {
-    document.querySelectorAll('.btn-filter-category.selected').forEach(el => el.classList.remove('selected'))
-    el.classList.add('selected')
-    // renderMenu(menuArray, filter)
-    // Can we somehow signify to the importing module that it should re-render the menu? Without having to import render menu?
-}
+const menuFilter = document.createElement('section')
 
 menuFilter.classList.add('sec-menu-controls')
 
@@ -70,5 +54,22 @@ menuFilter.innerHTML = `
             ${renderFilterBtns('coffee')}
         </ul>
 `
+
+menuFilter.addEventListener('click', e => {
+    if (e.target.dataset.type) handleClick(e.target)
+})
+
+
+const handleSelectOrderType = (target) => {
+    document.querySelectorAll('.btn-order-type.selected').forEach(el => el.classList.remove('selected'))
+    target.classList.add('selected')
+}
+
+const handleSelectFilter = (el, filter) => {
+    document.querySelectorAll('.btn-filter-category.selected').forEach(el => el.classList.remove('selected'))
+    el.classList.add('selected')
+    document.getElementById('sec-menu-list').replaceWith(menuList.renderMenu(filter))
+    // Can we somehow signify to the importing module that it should re-render the menu? Without having to import render menu?
+}
 
 export default menuFilter
