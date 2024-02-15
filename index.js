@@ -1,6 +1,8 @@
-import { menuArray } from './data/menu.js'
+import menuArray from './data/menu'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 import header from './layout/header'
+import divInnerContainer from './layout/inner'
+import menu from './layout/menu'
 
 // Grab what we need from the DOM (only if we use it more than once in the rest of our code)
 const ulMenu = document.getElementById('ul-menu')
@@ -71,83 +73,83 @@ const discountCodes = {
 //     if (type === 'basket') showModal(modalBasket, true)
 // })
 
-// Order confirmation modal, just a close btn (resets order system when clicked)
-modalOrderConfirmation.addEventListener('click', e => {
-    const type = e.target.dataset.type
-    console.log(e.target.dataset.starId)
+// // Order confirmation modal, just a close btn (resets order system when clicked)
+// modalOrderConfirmation.addEventListener('click', e => {
+//     const type = e.target.dataset.type
+//     console.log(e.target.dataset.starId)
 
-    const handleClick = {
-        close: () => {
-            showModal(modalOrderConfirmation, false)
-        },
-        star: () => {
-            renderStars(e.target.dataset.starId)
-        }
-    }
-    if (type) handleClick[type]()
-})
+//     const handleClick = {
+//         close: () => {
+//             showModal(modalOrderConfirmation, false)
+//         },
+//         star: () => {
+//             renderStars(e.target.dataset.starId)
+//         }
+//     }
+//     if (type) handleClick[type]()
+// })
 
 // Basket buttons, go to checkout, remove ite, or close
-modalBasket.addEventListener('click', e => {
-    const type = e.target.dataset.type
+// modalBasket.addEventListener('click', e => {
+//     const type = e.target.dataset.type
     
-    const handleClick = {
-        checkout: () => {
-            showModal(modalBasket, false)
-            showModal(modalCheckout, true)
-        },
-        close: () => {
-            showModal(modalBasket, false)
-        },
-        remove: () => {
-            handleRemoveItemFromOrder(e.target.dataset.instanceId)
-        }
-    }
+//     const handleClick = {
+//         checkout: () => {
+//             showModal(modalBasket, false)
+//             showModal(modalCheckout, true)
+//         },
+//         close: () => {
+//             showModal(modalBasket, false)
+//         },
+//         remove: () => {
+//             handleRemoveItemFromOrder(e.target.dataset.instanceId)
+//         }
+//     }
 
-    if (type) handleClick[type]()
-})
+//     if (type) handleClick[type]()
+// })
 
 // Checkout buttons 1. Pay 2. Back to basket 3. Close 4. Apply discount
-modalCheckout.addEventListener('click', e => {
-    const type = e.target.dataset.type
+// modalCheckout.addEventListener('click', e => {
+//     const type = e.target.dataset.type
 
-    const handleClick = {
-        pay: () => {
-            if (isFormComplete(formCardDet)) handlePayment()
-        },
-        back: () => {
-            showModal(modalCheckout, false)
-            showModal(modalBasket, true)
-        },
-        close: () => {
-            showModal(modalCheckout, false)
-        },
-        discount: () => {
-            handleApplyDiscount()
-        }
-    }
+//     const handleClick = {
+//         pay: () => {
+//             if (isFormComplete(formCardDet)) handlePayment()
+//         },
+//         back: () => {
+//             showModal(modalCheckout, false)
+//             showModal(modalBasket, true)
+//         },
+//         close: () => {
+//             showModal(modalCheckout, false)
+//         },
+//         discount: () => {
+//             handleApplyDiscount()
+//         }
+//     }
     
-    if (type) handleClick[type]()
-})
+//     if (type) handleClick[type]()
+// })
 
 // Discounts modal close btn
-modalDiscounts.addEventListener('click', e => {
-    const type = e.target.dataset.type
-    if (type === 'close') showModal(modalDiscounts, false)
-})
+// modalDiscounts.addEventListener('click', e => {
+//     const type = e.target.dataset.type
+//     if (type === 'close') showModal(modalDiscounts, false)
+// })
 
 // My Orders (order history) modal close btn
-modalMyOrders.addEventListener('click', e => {
-    const type = e.target.dataset.type
-    if (type === 'close') showModal(modalMyOrders, false)
-})
+// modalMyOrders.addEventListener('click', e => {
+//     const type = e.target.dataset.type
+//     if (type === 'close') showModal(modalMyOrders, false)
+// })
 
 // Credit card form — every time the value changes, remove warnng if a value exists, else
 // add the warning class
-formCardDet.addEventListener('input', e => {        
-    const input = e.target
-    Boolean(input.value) ? input.classList.remove('warning') : input.classList.add('warning')
-})
+// formCardDet.addEventListener('input', e => {        
+//     const input = e.target
+//     Boolean(input.value) ? input.classList.remove('warning') : input.classList.add('warning')
+// })
 
 // ------------------------ //
 // --- RENDER FUNCTIONS --- // 
@@ -384,10 +386,10 @@ const handleRemoveItemFromOrder = (instanceIdToRemove) => {
 }
 
 // Highlight whichever order type the user selected (this is cosmetic only, no real function in this app)
-const handleSelectOrderType = target => {
-    document.querySelectorAll('.btn-order-type.selected').forEach(el => el.classList.remove('selected'))
-    target.classList.add('selected')
-}
+// const handleSelectOrderType = target => {
+//     document.querySelectorAll('.btn-order-type.selected').forEach(el => el.classList.remove('selected'))
+//     target.classList.add('selected')
+// }
 
 // Highlight selected footer button. If no target is passed in, nothing gets selected and any existing selections
 // are removed
@@ -568,4 +570,6 @@ const getDiscountPercentage = discountMultiplier => {
 // renderViewBasketBtn(basket)
 // renderFilterBtns(defaultCategory)
 
-document.querySelector('#div-outer-container').appendChild(header)
+document.querySelector('#app-container').appendChild(header)
+document.querySelector('#app-container').appendChild(divInnerContainer)
+document.querySelector('#div-inner-container').appendChild(menu)

@@ -1,4 +1,4 @@
-export const menuArray = [
+const menuArray = [
     {
         name: "Café Latte",
         ingredients: ["Milk", "Espresso"],
@@ -96,3 +96,5 @@ export const menuArray = [
         category: "other"
     }
 ]
+
+export default menuArray

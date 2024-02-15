@@ -136,18 +136,18 @@ h1 {
 .main,
 .header,
 .sec-menu-controls,
-.div-outer-container {
+.app-container {
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
 
 .header,
-.div-outer-container {
+.app-container {
     align-items: center;
 }
 
-.div-outer-container {
+.app-container {
     background-color: var(--darkest);
     background-image: url('assets/beans.png');
     width: 600px;
@@ -161,7 +161,7 @@ h1 {
     background-color: var(--lightest);
     display: flex;
     flex-direction: column;
-    width: 100%;
+    min-width: 100%;
     gap: 25px;
     border-radius: var(--ext-br);
     padding: 25px 25px 15px 25px;
