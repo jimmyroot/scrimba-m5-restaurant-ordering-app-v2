@@ -1,14 +1,15 @@
-export { appState }
-
+import { app } from './data/app'
 import menuArray from './data/menu'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
-import header from './layout/header'
-import footer from './layout/footer'
+// import header from './layout/header'
+import { header } from './layout/header'
+import { footer } from './layout/footer'
 import divInnerContainer from './layout/inner'
 import menu from './components/menu'
-import btnViewBasket from './components/btnviewbasket'
-import appState from './data/appState'
-import modalViewBasket from './modals/modalviewbasket'
+import { btnViewBasket } from './components/btnviewbasket'
+import { modalViewBasket } from './modals/modalviewbasket'
+import { modalCheckout } from './modals/modalcheckout'
+import { modalOrderConfirmation } from './modals/modalorderconfirmation'
 
 console.log(btnViewBasket)
 
@@ -16,12 +17,12 @@ console.log(btnViewBasket)
 const ulMenu = document.getElementById('ul-menu')
 const ulMenuFilter = document.getElementById('ul-menu-filter')
 const secBasket = document.getElementById('sec-basket')
-const modalBasket = document.getElementById('modal-basket')
-const modalCheckout = document.getElementById('modal-checkout')
-const modalOrderConfirmation = document.getElementById('modal-order-confirmation')
-const modalMyOrders = document.getElementById('modal-my-orders')
-const modalDiscounts = document.getElementById('modal-discounts')
-const formCardDet = document.querySelectorAll('#form-card-detail')[0]
+// const modalBasket = document.getElementById('modal-basket')
+// const modalCheckout = document.getElementById('modal-checkout')
+// const modalOrderConfirmation = document.getElementById('modal-order-confirmation')
+// const modalMyOrders = document.getElementById('modal-my-orders')
+// const modalDiscounts = document.getElementById('modal-discounts')
+// const formCardDet = document.querySelectorAll('#form-card-detail')[0]
 
 
 // Init vars
@@ -116,6 +117,7 @@ const discountCodes = {
 
 // Checkout buttons 1. Pay 2. Back to basket 3. Close 4. Apply discount
 // modalCheckout.addEventListener('click', e => {
+//     modalCheckout.addEventListener('click', e => {
 //     const type = e.target.dataset.type
 
 //     const handleClick = {
@@ -135,6 +137,7 @@ const discountCodes = {
 //     }
     
 //     if (type) handleClick[type]()
+// })
 // })
 
 // Discounts modal close btn
@@ -188,48 +191,48 @@ const renderMenu = (menu, category = 'coffee') => {
 }
 
 // Render basket contents in basket modal, called before we show the basket modal
-const renderBasket = basket => {
+// const renderBasket = basket => {
 
-    // Generate html for items in basket
-    const htmlBasket = basket.map((item, index, arr) => {
-        const {name, ingredients, price, imageURL, instanceId} = item
-        const isLastIter = ((index + 1) === arr.length)
-        return `
-            <li class="li-menu-item">
-                <img class="img-item" src="${imageURL}">
-                <div>
-                    <span class="spn-item-name">${name}</span>
-                    <span class="spn-item-dets">
-                        ${ingredients.map(ingredient => ingredient).join(', ')}
-                    </span>
-                    <span class="spn-item-dets">£${price.toFixed(2)}</span>
-                </div>
-                <button class="btn-remove" data-instance-id="${instanceId}" data-type="remove">
-                    <i class='bx bx-minus bx-sm'></i>
-                </button>
-            </li>
-            ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
-        `
-    }).join('')
+//     // Generate html for items in basket
+//     const htmlBasket = basket.map((item, index, arr) => {
+//         const {name, ingredients, price, imageURL, instanceId} = item
+//         const isLastIter = ((index + 1) === arr.length)
+//         return `
+//             <li class="li-menu-item">
+//                 <img class="img-item" src="${imageURL}">
+//                 <div>
+//                     <span class="spn-item-name">${name}</span>
+//                     <span class="spn-item-dets">
+//                         ${ingredients.map(ingredient => ingredient).join(', ')}
+//                     </span>
+//                     <span class="spn-item-dets">£${price.toFixed(2)}</span>
+//                 </div>
+//                 <button class="btn-remove" data-instance-id="${instanceId}" data-type="remove">
+//                     <i class='bx bx-minus bx-sm'></i>
+//                 </button>
+//             </li>
+//             ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
+//         `
+//     }).join('')
 
-    // Create the html for the basket total. Use our renderDiscountStatus to show
-    // if the user has used a discount code
-    const htmlTotal = `
-        <p>Total ${renderDiscountStatus(discountMultiplier)}:</p>
-        <p id="p-basket-total">£${getOrderTotal(basket)}</p>
-    `
+//     // Create the html for the basket total. Use our renderDiscountStatus to show
+//     // if the user has used a discount code
+//     const htmlTotal = `
+//         <p>Total ${renderDiscountStatus(discountMultiplier)}:</p>
+//         <p id="p-basket-total">£${getOrderTotal(basket)}</p>
+//     `
 
-    // Render the basket contents and total amount in respective elements
-    document.getElementById('ul-basket-items').innerHTML = htmlBasket
-    document.getElementById('div-basket-total').innerHTML = htmlTotal
+//     // Render the basket contents and total amount in respective elements
+//     document.getElementById('ul-basket-items').innerHTML = htmlBasket
+//     document.getElementById('div-basket-total').innerHTML = htmlTotal
     
-    // Set the checkout button to disabled if the basket is empty, or vice versa
-    enableButtons([document.getElementById('btn-checkout')], basket.length > 0)
+//     // Set the checkout button to disabled if the basket is empty, or vice versa
+//     enableButtons([document.getElementById('btn-checkout')], basket.length > 0)
     
-    // When the basket is rendered we need to update the button on the main page, so we
-    // may as well do that here
-    renderViewBasketBtn(basket)
-}
+//     // When the basket is rendered we need to update the button on the main page, so we
+//     // may as well do that here
+//     renderViewBasketBtn(basket)
+// }
 
 // Render checkout modal; not much to do here except update the total and show 
 // if a discount is applied. Called when the modal is shown and when a user enters 
@@ -342,53 +345,35 @@ const renderFilterBtns = defaultCategory => {
     }).join('')
 }
 
-// Render the stars 
-const renderStars = numberOfStars => {
-    currentStarRating = numberOfStars
-    let starArr = []
-    for (let star = 1; star <= 5; star++) {
-        star <= currentStarRating ? 
-            starArr.push(`
-                <li class="li-star solid" data-type="star" data-star-id="${star}">
-                    <i class="bx bxs-star"></i>
-                </li>
-            `) : 
-            starArr.push(`
-                <li class="li-star" data-type="star" data-star-id="${star}">
-                    <i class="bx bxs-star" ></i>
-                </li>
-            `)
-    }
-    document.getElementById('ul-star-rating').innerHTML = starArr.map(star => star).join('')
-}
+
 
 // EVENT HANDLERS
 
 // Add item to order; use structuredClone() to create a deep copy of the selected item and
 // push it to the basket array with a UUID. Now we can add/remove multiple items of the same type
-const handleAddItemToOrder = (id) => {
-    // Find the item
-    const itemToAdd = menuArray.find(item => item.id === +id)
-    // Copy it
-    let copyOfItemToAdd = structuredClone(itemToAdd)
-    // Add UUID
-    copyOfItemToAdd.instanceId = uuidv4()
-    basket.push(copyOfItemToAdd)
-    // Update View Basket button
-    renderViewBasketBtn(basket)
-}
+// const handleAddItemToOrder = (id) => {
+//     // Find the item
+//     const itemToAdd = menuArray.find(item => item.id === +id)
+//     // Copy it
+//     let copyOfItemToAdd = structuredClone(itemToAdd)
+//     // Add UUID
+//     copyOfItemToAdd.instanceId = uuidv4()
+//     basket.push(copyOfItemToAdd)
+//     // Update View Basket button
+//     renderViewBasketBtn(basket)
+// }
 
 // Remove item from basket based using it's instanceId
-const handleRemoveItemFromOrder = (instanceIdToRemove) => {
-    // Use reduce to return a new array that doesn't include the item
-    // we're removing
-    basket = basket.reduce((arr, item) => {
-        if (item.instanceId !== instanceIdToRemove) arr.push(item)
-        return arr
-    }, [])
+// const handleRemoveItemFromOrder = (instanceIdToRemove) => {
+//     // Use reduce to return a new array that doesn't include the item
+//     // we're removing
+//     basket = basket.reduce((arr, item) => {
+//         if (item.instanceId !== instanceIdToRemove) arr.push(item)
+//         return arr
+//     }, [])
 
-    renderBasket(basket)
-}
+//     renderBasket(basket)
+// }
 
 // Highlight whichever order type the user selected (this is cosmetic only, no real function in this app)
 // const handleSelectOrderType = target => {
@@ -489,17 +474,7 @@ const isFormComplete = form => {
 
 // Used when rendering totals, if discount is applied return a span with a 'discount applied' message,
 // else return an empty string; to be used inside string template
-const renderDiscountStatus = discountMultiplier => {
-    if (discountMultiplier > 0) {
-        const percentDiscount = getDiscountPercentage(discountMultiplier)
-        return `
-            <span class="spn-discount">
-                (${percentDiscount}% discount applied)
-            </span>&nbsp;
-        `
-    }
-    return ''
-}
+
 
 // Show or hide the specified modal, and call the respective function assigned
 // to the id of the modal we're displaying; in this way we can execute tasks 
@@ -566,9 +541,21 @@ const getDiscountPercentage = discountMultiplier => {
 // renderViewBasketBtn(basket)
 // renderFilterBtns(defaultCategory)
 
-document.querySelector('#app-container').appendChild(header)
+// Build the main screen
+document.querySelector('#app-container').appendChild(header.getHeader())
 document.querySelector('#app-container').appendChild(divInnerContainer)
 document.querySelector('#div-inner-container').appendChild(menu)
-document.querySelector('#div-inner-container').appendChild(btnViewBasket)
-document.querySelector('#div-inner-container').appendChild(footer)
-document.querySelector('#div-inner-container').appendChild(modalViewBasket)
+document.querySelector('#div-inner-container').appendChild(btnViewBasket.getElement())
+document.querySelector('#div-inner-container').appendChild(footer.getElement())
+
+// Add the modals 
+document.querySelector('#div-inner-container').appendChild(modalViewBasket.getElement())
+document.querySelector('#div-inner-container').appendChild(modalCheckout.getElement())
+document.querySelector('#div-inner-container').appendChild(modalOrderConfirmation.getElement())
+
+
+btnViewBasket.addEventListeners()
+footer.addEventListeners()
+modalViewBasket.addEventListeners()
+modalCheckout.addEventListeners()
+modalOrderConfirmation.addEventListeners()

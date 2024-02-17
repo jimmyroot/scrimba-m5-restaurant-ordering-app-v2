@@ -1,77 +1,123 @@
-import appState from "../data/appState"
-import * as helpers from '../helpers/helpers'
-// import { refreshViewBasketBtn } from "../components/btnviewbasket"
+import { app } from "../data/app"
+import { btnViewBasket } from "../components/btnviewbasket"
+import { modalCheckout } from "./modalcheckout"
+import { renderDiscountStatus, getOrderTotal } from "../helpers/helpers"
 
-const modalViewBasket = document.createElement('dialog')
-modalViewBasket.classList.add('modal')
-modalViewBasket.id = 'modal-basket'
+const ModalViewBasket = () => {
 
-modalViewBasket.innerHTML = `
-    <div class="modal-inner">
-        <header>
-            <h3 class="modal-title">Your basket</h3>
-            <div class="div-divider div-divider-accent"></div>
-            <button class="btn-modal-close" id="btn-close-view-basket" data-type="close">
-                <i class='bx bx-x bx-md'></i>
-            </button>
-        </header>
-        <ul class="ul-order overflow-thin-scrollbar" id="ul-basket-items">
+    const addEventListeners = () => {
+        node.addEventListener('click', e => {
+            const handleClick = {
+                checkout: () => {
+                    hide()
+                    modalCheckout.show()
+                },
+                close: () => {
+                    hide()
+                },
+                remove: () => {
+                    app.removeFromBasket(e.target.dataset.instanceId)
+                    refreshBasket()
+                    btnViewBasket.refreshBtnViewBasket()
+                }
+            }
             
-        </ul>
-        <footer>
-            <div class="div-space-between" id="div-basket-total">
-                
-            </div>
-            <button class="btn-modal-main" id="btn-checkout" data-type="checkout">Checkout</button>
-        </footer>
-    </div>
-`
+            const type = e.target.dataset.type
+            if (type) handleClick[type]()
+        })
+    }
 
-const refreshBasket = (basket) => {
+    const renderContent = () => {
 
-    console.log('fired')
+        const basket = app.getBasket()
+        const discountMultiplier = app.getDiscountMultiplier()
 
-    // Generate html for items in basket
-    const htmlBasket = basket.map((item, index, arr) => {
-        const {name, ingredients, price, imageURL, instanceId} = item
-        const isLastIter = ((index + 1) === arr.length)
-        return `
-            <li class="li-menu-item">
-                <img class="img-item" src="${imageURL}">
-                <div>
-                    <span class="spn-item-name">${name}</span>
-                    <span class="spn-item-dets">
-                        ${ingredients.map(ingredient => ingredient).join(', ')}
-                    </span>
-                    <span class="spn-item-dets">£${price.toFixed(2)}</span>
-                </div>
-                <button class="btn-remove" data-instance-id="${instanceId}" data-type="remove">
-                    <i class='bx bx-minus bx-sm'></i>
-                </button>
-            </li>
-            ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
+        let modalHtml = `
+            <div class="modal-inner">
+                <header>
+                    <h3 class="modal-title">Your basket</h3>
+                    <div class="div-divider div-divider-accent"></div>
+                    <button class="btn-modal-close" id="btn-close-view-basket" data-type="close">
+                        <i class='bx bx-x bx-md'></i>
+                    </button>
+                </header>
+                <ul class="ul-order overflow-thin-scrollbar" id="ul-basket-items">
         `
-    }).join('')
+            
+        modalHtml += basket.map((item, index, arr) => {
+            const {name, ingredients, price, imageURL, instanceId} = item
+            const isLastIter = ((index + 1) === arr.length)
+            return `
+                <li class="li-menu-item">
+                    <img class="img-item" src="${imageURL}">
+                    <div>
+                        <span class="spn-item-name">${name}</span>
+                        <span class="spn-item-dets">
+                            ${ingredients.map(ingredient => ingredient).join(', ')}
+                        </span>
+                        <span class="spn-item-dets">£${price.toFixed(2)}</span>
+                    </div>
+                    <button class="btn-remove" data-instance-id="${instanceId}" data-type="remove">
+                        <i class='bx bx-minus bx-sm'></i>
+                    </button>
+                </li>
+                ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
+            `
+        })
+        .join('')
+        .concat(`
+            </ul>
+            <footer>
+                <div class="div-space-between" id="div-basket-total">
+                    <p>Total ${renderDiscountStatus(discountMultiplier)}:</p>
+                    <p id="p-basket-total">£${getOrderTotal(basket, discountMultiplier)}</p>
+                </div>
+                <button class="btn-modal-main" id="btn-checkout" data-type="checkout"
+                    ${basket.length > 0 ? '' : 'disabled'}
+                >Checkout</button>
+            </footer>
+        </div>
+        `)
 
-    // Create the html for the basket total. Use our renderDiscountStatus to show
-    // if the user has used a discount code 
-    //     <p>Total ${renderDiscountStatus(appState.discountMultiplier)}:</p>
-    //     <p id="p-basket-total">£${getOrderTotal(basket)}</p>
-    // `
+        return modalHtml
+    }
 
-    // Render the basket contents and total amount in respective elements
+    // Whenever calling this you should also call refreshBtnViewBasket
+    // from the relevant module
+    const refreshBasket = () => {
+        node.innerHTML = renderContent()
+    }
 
-    // document.getElementById('ul-basket-items').innerHTML = htmlBasket
-    // document.getElementById('div-basket-total').innerHTML = htmlTotal
-    
-    // Set the checkout button to disabled if the basket is empty, or vice versa
-    
-    // When the basket is rendered we need to update the button on the main page, so we
-    // may as well do that here
-    // refreshViewBasketBtn()
+    const getElement = () => {
+        return node
+    }
+
+    const show = () => {
+        refreshBasket()
+        document.querySelector('#modal-basket').showModal()
+    }
+
+    const hide = () => {
+        document.querySelector('#modal-basket').close()
+    }
+
+    const node = document.createElement('dialog')
+    node.classList.add('modal')
+    node.id = 'modal-basket'
+
+    // const ul = document.createElement('ul')
+    // ul.classList.add('ul-order', 'overflow-thin-scrollbar')
+    // ul.id = 'ul-basket-items'
+
+    refreshBasket()
+
+    return {
+        getElement,
+        addEventListeners,
+        show,
+        hide,
+        refreshBasket
+    }
 }
 
-export default modalViewBasket
-export { refreshBasket }
-
-//    helpers.enableButtons([document.getElementById('btn-checkout')], basket.length > 0)
+export const modalViewBasket = ModalViewBasket()

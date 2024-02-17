@@ -1,8 +1,9 @@
-import appState from "../data/appState"
-import { refreshBasket } from "../modals/modalviewbasket"
-import { handleSelectNav } from "../layout/footer"
+import { app } from '../data/app'
 
-export { getOrderTotal, showModal }
+// import { refreshBasket } from "../modals/modalviewbasket"
+// import { handleSelectNav } from "../layout/footer"
+
+export { getOrderTotal, showModal, renderDiscountStatus, handleApplyDiscount, enableButtons }
 
 const getOrderTotal = (order, discountMultiplier) => {
     if (order.length > 0) {
@@ -29,7 +30,7 @@ const showModal = (modal, doShow) => {
             renderOrderHistory(appState.orderHistory)
         },
         'modal-basket': () => {
-            refreshBasket(appState.basket)
+            modalViewBasket.refreshBasket()
         },
         'modal-checkout': () => {
             renderCheckout(appState.basket)
@@ -66,4 +67,48 @@ const showModal = (modal, doShow) => {
         if (Object.keys(cleanUp).includes(modal.id)) cleanUp[modal.id]()
         modal.close()
     }
+}
+
+const renderDiscountStatus = discountMultiplier => {
+    let html = ''
+    if (discountMultiplier > 0) {
+        const percentDiscount = getDiscountPercentage(discountMultiplier)
+        html = `
+            <span class="spn-discount">
+                (${percentDiscount}% discount applied)
+            </span>&nbsp;
+        `
+    }
+    return html
+}
+
+// Apply discount if valid
+const handleApplyDiscount = () => {
+    const inputDiscount = document.getElementById('ipt-discount')
+    const code = inputDiscount.value
+    const discountCodes = app.getDiscountCodes()
+
+    // Check if the discount code exists 
+    if (Object.keys(discountCodes).includes(code)) {
+        // If so set the discountMultiplier
+        app.setDiscountMultiplier(discountCodes[code])
+        // Remove the warning class if it's there
+        if (inputDiscount.classList.contains('warning')) inputDiscount.classList.remove('warning')
+        // renderCheckout(basket)
+    } else {
+        // disable discount, show warning; the discount code was invalid
+        app.setDiscountMultiplier(0)
+        inputDiscount.classList.add('warning')
+        // renderCheckout(basket)
+    }
+    inputDiscount.value = ''
+}
+
+const getDiscountPercentage = discountMultiplier => {
+    return (100-(discountMultiplier / 1 * 100))
+}   
+
+const enableButtons = (buttons, doEnable) => {
+    buttons.forEach(button => button.disabled = true)
+    // if (buttons.length > 0) buttons.forEach(button => button.disabled = !doEnable)
 }
