@@ -1,5 +1,5 @@
 import { app } from "../data/app"
-import { getOrderTotal, renderDiscountStatus } from "../helpers/helpers"
+import { renderDiscountStatus } from "../helpers/helpers"
 
 const ModalOrderConfirmation = () => {
     
@@ -10,7 +10,7 @@ const ModalOrderConfirmation = () => {
                 close: () => {
                     hide()
                     // save the order in history (app.js)
-                    // handle app reset (app.js)
+                    app.handleReset()
                 },
                 star: () => {
                     app.setCurrentStarRating(e.target.dataset.starId)
@@ -25,7 +25,7 @@ const ModalOrderConfirmation = () => {
     const renderContent = () => {
         const basket = app.getBasket()
         const discountMultiplier = app.getDiscountMultiplier()
-        const orderTotal = getOrderTotal(basket)
+        const orderTotal = app.getOrderTotal()
         const currentStarRating = app.getCurrentStarRating()
 
         let html = `

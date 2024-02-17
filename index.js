@@ -342,3 +342,7 @@ footer.addEventListeners()
 modalViewBasket.addEventListeners()
 modalCheckout.addEventListeners()
 modalOrderConfirmation.addEventListeners()
+
+// TODO 1: Can we move render stars into it's own component
+// TODO 2: Finish the last two modals
+// TODO 3: Homogenize all modals

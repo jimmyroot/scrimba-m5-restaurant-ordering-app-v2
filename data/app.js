@@ -1,4 +1,5 @@
 import { v4 as newUUID } from 'https://jspm.dev/uuid'
+import { btnViewBasket } from '../components/btnviewbasket'
 
 const App = () => {
 
@@ -32,6 +33,15 @@ const App = () => {
         return discountCodes
     }
 
+    
+    const setDiscountMultiplier = (multiplier) => {
+        discountMultiplier = multiplier
+    }
+
+    const setCurrentStarRating = (numStars) => {
+        currentStarRating = numStars
+    }
+
     const addToBasket = (menuArray, id) => {
         const itemToAdd = menuArray.find(item => item.id === +id)
         // Deep copy it
@@ -50,12 +60,40 @@ const App = () => {
 
     }
 
-    const setDiscountMultiplier = (multiplier) => {
-        discountMultiplier = multiplier
+    const saveToOrderHistory = basket => {
+        // Build an object containing details about the currentorder and push it to the 
+        // orderHistory array
+        const orderObj = {
+            items: basket.map(item => item.name),
+            total: getOrderTotal(basket),
+            starRating: currentStarRating,
+            date: new Date().toLocaleDateString('en-GB', {
+                month: 'short',
+                day: 'numeric',
+            })
+        }
+        orderHistory.push(orderObj)
     }
 
-    const setCurrentStarRating = (numStars) => {
-        currentStarRating = numStars
+    const getOrderTotal = () => {
+        if (basket.length > 0) {
+            let total = basket.map(
+                item => item.price
+            ).reduce(
+                (total, price) => total + price
+            )
+            if (discountMultiplier) total *= discountMultiplier
+            return total.toFixed(2)
+        } else {
+            return "0.00"
+        }
+    }
+
+    const handleReset = () => {
+        basket = []
+        discountMultiplier = 0
+        currentStarRating = 3
+        btnViewBasket.refreshBtnViewBasket()
     }
 
     return {
@@ -64,10 +102,13 @@ const App = () => {
         getOrderHistory,
         getCurrentStarRating,
         getDiscountCodes,
+        getOrderTotal,
         addToBasket,
         removeFromBasket,
         setDiscountMultiplier,
-        setCurrentStarRating
+        setCurrentStarRating,
+        saveToOrderHistory,
+        handleReset
     }
 }
 

@@ -8,7 +8,7 @@ const BtnViewBasket = () => {
         const basket = app.getBasket()
         const discountMultiplier = app.getDiscountMultiplier()
         const itemCount = basket.length
-        const orderTotal = helpers.getOrderTotal(basket, discountMultiplier)
+        const orderTotal = app.getOrderTotal()
         return `
                 <i class="bx bx-basket bx-lg"></i>
                 <span class="span-item-count">${itemCount}</span>

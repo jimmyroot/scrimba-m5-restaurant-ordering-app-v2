@@ -2,7 +2,7 @@ import { app } from "../data/app"
 import { modalViewBasket } from "./modalviewbasket"
 import { btnViewBasket } from "../components/btnviewbasket"
 import { modalOrderConfirmation } from "./modalorderconfirmation"
-import { renderDiscountStatus, getOrderTotal, handleApplyDiscount } from "../helpers/helpers"
+import { renderDiscountStatus, handleApplyDiscount } from "../helpers/helpers"
 
 const ModalCheckout = () => {
 
@@ -34,8 +34,7 @@ const ModalCheckout = () => {
 
     const renderContent = () => {
         const discountMultiplier = app.getDiscountMultiplier()
-        const basket = app.getBasket()
-        const orderTotal = getOrderTotal(basket)
+        const orderTotal = app.getOrderTotal()
 
         const modalHtml = `
             <div class="modal-inner">
@@ -119,8 +118,7 @@ const ModalCheckout = () => {
 
     const refreshTotal = () => {
         const discountMultiplier = app.getDiscountMultiplier()
-        const basket = app.getBasket()
-        const orderTotal = getOrderTotal(basket, discountMultiplier)
+        const orderTotal = app.getOrderTotal()
 
         document.querySelector('#div-checkout-total').innerHTML = `
             <p>Total ${renderDiscountStatus(discountMultiplier)}:</p>

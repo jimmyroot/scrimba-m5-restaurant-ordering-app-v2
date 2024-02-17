@@ -1,7 +1,7 @@
 import { app } from "../data/app"
 import { btnViewBasket } from "../components/btnviewbasket"
 import { modalCheckout } from "./modalcheckout"
-import { renderDiscountStatus, getOrderTotal } from "../helpers/helpers"
+import { renderDiscountStatus } from "../helpers/helpers"
 
 const ModalViewBasket = () => {
 
@@ -31,6 +31,7 @@ const ModalViewBasket = () => {
 
         const basket = app.getBasket()
         const discountMultiplier = app.getDiscountMultiplier()
+        const orderTotal = app.getOrderTotal()
 
         let modalHtml = `
             <div class="modal-inner">
@@ -70,7 +71,7 @@ const ModalViewBasket = () => {
             <footer>
                 <div class="div-space-between" id="div-basket-total">
                     <p>Total ${renderDiscountStatus(discountMultiplier)}:</p>
-                    <p id="p-basket-total">£${getOrderTotal(basket, discountMultiplier)}</p>
+                    <p id="p-basket-total">£${orderTotal}</p>
                 </div>
                 <button class="btn-modal-main" id="btn-checkout" data-type="checkout"
                     ${basket.length > 0 ? '' : 'disabled'}

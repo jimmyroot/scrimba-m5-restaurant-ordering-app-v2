@@ -3,7 +3,7 @@ import { app } from '../data/app'
 // import { refreshBasket } from "../modals/modalviewbasket"
 // import { handleSelectNav } from "../layout/footer"
 
-export { getOrderTotal, showModal, renderDiscountStatus, handleApplyDiscount, enableButtons }
+export { showModal, renderDiscountStatus, handleApplyDiscount, enableButtons }
 
 const getOrderTotal = (order, discountMultiplier) => {
     if (order.length > 0) {
