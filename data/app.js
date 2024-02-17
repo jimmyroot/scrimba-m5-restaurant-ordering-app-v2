@@ -1,5 +1,4 @@
 import { v4 as newUUID } from 'https://jspm.dev/uuid'
-import { btnViewBasket } from '../components/btnviewbasket'
 
 const App = () => {
 
@@ -60,7 +59,7 @@ const App = () => {
 
     }
 
-    const saveToOrderHistory = basket => {
+    const archiveOrder = () => {
         // Build an object containing details about the currentorder and push it to the 
         // orderHistory array
         const orderObj = {
@@ -93,7 +92,6 @@ const App = () => {
         basket = []
         discountMultiplier = 0
         currentStarRating = 3
-        btnViewBasket.refreshBtnViewBasket()
     }
 
     return {
@@ -107,7 +105,7 @@ const App = () => {
         removeFromBasket,
         setDiscountMultiplier,
         setCurrentStarRating,
-        saveToOrderHistory,
+        archiveOrder,
         handleReset
     }
 }

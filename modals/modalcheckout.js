@@ -172,23 +172,3 @@ const ModalCheckout = () => {
 }
 
 export const modalCheckout = ModalCheckout()
-
-// const ModalCheckout = () => {
-//     const node = document.createElement('dialog')
-
-//     const addEventListeners = () => {
-//         node.addEventListener('click', e => {
-
-//         }
-//     )}
-
-//     const getElement = () => {
-//         return node
-//     }
-
-//     return {
-//         getElement,
-//     }
-// }
-
-// export const modalCheckout = ModalCheckout()

@@ -1,5 +1,6 @@
 import { app } from "../data/app"
 import { renderDiscountStatus } from "../helpers/helpers"
+import { btnViewBasket } from "../components/btnviewbasket"
 
 const ModalOrderConfirmation = () => {
     
@@ -8,9 +9,10 @@ const ModalOrderConfirmation = () => {
         node.addEventListener('click', e => {
             const handleClick = {
                 close: () => {
-                    hide()
-                    // save the order in history (app.js)
+                    app.archiveOrder()
                     app.handleReset()
+                    btnViewBasket.refreshBtnViewBasket()
+                    hide()
                 },
                 star: () => {
                     app.setCurrentStarRating(e.target.dataset.starId)
@@ -105,7 +107,7 @@ const ModalOrderConfirmation = () => {
     }
 
     const hide = () => {
-        document.querySelector('#modal-order-confirmation').closest()
+        document.querySelector('#modal-order-confirmation').close()
     }
 
     // Scaffold the modal

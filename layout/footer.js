@@ -1,3 +1,5 @@
+import { modalMyOrders } from "../modals/modalmyorders"
+
 const Footer = () => {
 
     const footerEl = document.createElement('footer')
@@ -41,7 +43,7 @@ const Footer = () => {
 
             const handleClick = {
                 orders: () => {
-                    showModal(modalMyOrders, true)
+                    modalMyOrders.show()
                 },
                 discounts: () => {
                     showModal(modalDiscounts, true)

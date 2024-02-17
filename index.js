@@ -1,7 +1,3 @@
-import { app } from './data/app'
-import menuArray from './data/menu'
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
-// import header from './layout/header'
 import { header } from './layout/header'
 import { footer } from './layout/footer'
 import divInnerContainer from './layout/inner'
@@ -10,13 +6,12 @@ import { btnViewBasket } from './components/btnviewbasket'
 import { modalViewBasket } from './modals/modalviewbasket'
 import { modalCheckout } from './modals/modalcheckout'
 import { modalOrderConfirmation } from './modals/modalorderconfirmation'
-
-console.log(btnViewBasket)
+import { modalMyOrders } from './modals/modalmyorders'
 
 // Grab what we need from the DOM (only if we use it more than once in the rest of our code)
-const ulMenu = document.getElementById('ul-menu')
-const ulMenuFilter = document.getElementById('ul-menu-filter')
-const secBasket = document.getElementById('sec-basket')
+// const ulMenu = document.getElementById('ul-menu')
+// const ulMenuFilter = document.getElementById('ul-menu-filter')
+// const secBasket = document.getElementById('sec-basket')
 // const modalBasket = document.getElementById('modal-basket')
 // const modalCheckout = document.getElementById('modal-checkout')
 // const modalOrderConfirmation = document.getElementById('modal-order-confirmation')
@@ -335,6 +330,7 @@ document.querySelector('#div-inner-container').appendChild(footer.getElement())
 document.querySelector('#div-inner-container').appendChild(modalViewBasket.getElement())
 document.querySelector('#div-inner-container').appendChild(modalCheckout.getElement())
 document.querySelector('#div-inner-container').appendChild(modalOrderConfirmation.getElement())
+document.querySelector('#div-inner-container').appendChild(modalMyOrders.getElement())
 
 
 btnViewBasket.addEventListeners()
@@ -344,5 +340,6 @@ modalCheckout.addEventListeners()
 modalOrderConfirmation.addEventListeners()
 
 // TODO 1: Can we move render stars into it's own component
-// TODO 2: Finish the last two modals
-// TODO 3: Homogenize all modals
+// TODO 2: Finish the last modal
+// TODO 3: Homogenize all modals (refreshContent etc)
+// TODO 4: Add event listeners to my orders modal (Finish myOrders modal)
