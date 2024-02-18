@@ -1,12 +1,28 @@
 import { app } from "../data/app"
+import { footer } from "../layout/footer"
 
-const ModalMyOrders = () => { // Change this to your modal name
+const ModalMyOrders = () => {
 
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            // Do something with 'e'
-        }
-    )}
+            const handleClick = {
+                close: () => {
+                    hide()
+                    // Haven't figured out a more graceful way to do this yet, it basically removes 
+                    // the 'selected' styling from the footer button when we close the 
+                    // modal
+                }
+            }
+
+            const type = e.target.dataset.type
+            if (type) handleClick[type]()
+        })
+    
+        node.addEventListener('cancel', e => {
+           e.preventDefault()
+           hide()
+        })
+    }
 
     const renderContent = () => {
         const html = `
@@ -15,7 +31,6 @@ const ModalMyOrders = () => { // Change this to your modal name
                     <h3 class="modal-title">Order history</h3>
                     <div class="div-divider div-divider-accent"></div>
                 </header>
-                <ul class="ul-order-history" id="ul-order-history">
                     ${renderOrderHistory()}
                 </ul>
                 <footer>
@@ -29,7 +44,9 @@ const ModalMyOrders = () => { // Change this to your modal name
     const renderOrderHistory = () => {
         const orderHistory = app.getOrderHistory()
 
-        const html = orderHistory.map((order, index, arr) => {
+        let html = `<ul class="ul-order-history" id="ul-order-history">`
+
+        html += orderHistory.map((order, index, arr) => {
             const isLastIter = ((index + 1) === arr.length)
             const starRating = []
             while (starRating.length < order.starRating) {
@@ -47,7 +64,7 @@ const ModalMyOrders = () => { // Change this to your modal name
                 </li>
                 ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
             `
-        }).join('')
+        }).join('').concat('</ul>') 
 
         return html
     }
@@ -63,11 +80,12 @@ const ModalMyOrders = () => { // Change this to your modal name
 
     const hide = () => {
         document.querySelector('#modal-my-orders').close() //Modify this with id of the modal
+        footer.handleSelectNav()
     }
 
     // Call this function to add your modal to the DOM, like...
-    // document.querySelector('element-you'll-append-modal-to).appendChild(modal.getElement())
-    const getElement = () => {
+    // document.querySelector('element-you'll-append-modal-to).appendChild(modal.get())
+    const get = () => {
         refreshContent()
         return node
     }
@@ -83,7 +101,7 @@ const ModalMyOrders = () => { // Change this to your modal name
     refreshContent()
 
     return {
-        getElement,
+        get,
         addEventListeners,
         show,
         hide

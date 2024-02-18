@@ -31,7 +31,6 @@ const App = () => {
     const getDiscountCodes = () => {
         return discountCodes
     }
-
     
     const setDiscountMultiplier = (multiplier) => {
         discountMultiplier = multiplier
@@ -56,7 +55,6 @@ const App = () => {
             if (item.instanceId !== instanceIdToRemove) arr.push(item)
             return arr
         }, [])
-
     }
 
     const archiveOrder = () => {

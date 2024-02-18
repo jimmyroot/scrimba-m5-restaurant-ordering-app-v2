@@ -469,7 +469,6 @@ h1 {
     width: 36px;
     height: 36px;
     padding-top: 6px;
-    /* line-height: 1.7; */
     border-radius: 50px;
     position: absolute;
     top: 20px;
@@ -486,8 +485,8 @@ h1 {
     border-radius: var(--int-br);
     min-width: 510px;
     width: 510px;
-    min-height: 975px;
-    height: 975px;
+    min-height: 1070px;
+    height: 1070px;
     overflow-y: hidden;
     margin: 0 auto;
     padding: 25px;
@@ -496,6 +495,11 @@ h1 {
     top: 94px;
     left: 0;
 }
+
+/* dialog::backdrop {
+    color: var(--accent-darkest);
+    opacity: 1;
+} */
 
 .modal-inner,
 .modal-inner header {

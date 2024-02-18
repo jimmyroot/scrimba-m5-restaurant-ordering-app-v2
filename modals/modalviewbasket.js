@@ -89,7 +89,7 @@ const ModalViewBasket = () => {
         node.innerHTML = renderContent()
     }
 
-    const getElement = () => {
+    const get = () => {
         return node
     }
 
@@ -113,7 +113,7 @@ const ModalViewBasket = () => {
     refreshBasket()
 
     return {
-        getElement,
+        get,
         addEventListeners,
         show,
         hide,

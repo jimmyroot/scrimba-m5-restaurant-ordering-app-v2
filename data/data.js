@@ -33,7 +33,7 @@ const menuArray = [
     },
     {
         name: "Bircher Muesli Bowl",
-        ingredients: ["Oats", "Yoghurt", "Honey", "Apple", "Berries", "Banana"],
+        ingredients: ["Oats", "Yoghurt", "Honey", "Apple", "Berries"],
         price: 4.65,
         imageURL: "/assets/bircher.png",
         id: 4,
@@ -57,7 +57,7 @@ const menuArray = [
     },
     {
         name: "Almond Croissant",
-        ingredients: ["Wheat", "Butter", "Almond Paste", "Icing Sugar"],
+        ingredients: ["Wheat", "Butter", "Almond Paste", "Sugar"],
         price: 2.35,
         imageURL: "/assets/croissant.png",
         id: 7,

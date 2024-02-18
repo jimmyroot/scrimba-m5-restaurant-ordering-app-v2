@@ -7,6 +7,7 @@ import { modalViewBasket } from './modals/modalviewbasket'
 import { modalCheckout } from './modals/modalcheckout'
 import { modalOrderConfirmation } from './modals/modalorderconfirmation'
 import { modalMyOrders } from './modals/modalmyorders'
+import { modalDiscounts } from './modals/modaldiscounts'
 
 // Grab what we need from the DOM (only if we use it more than once in the rest of our code)
 // const ulMenu = document.getElementById('ul-menu')
@@ -35,11 +36,6 @@ const discountCodes = {
 // --- EVENT LISTENERS --- //
 // ----------------------- //
 
-// Order type btns
-// document.getElementById('div-order-type').addEventListener('click', e => {
-//     const id = e.target.dataset.id
-//     if (id) handleSelectOrderType(e.target)
-// })
 
 // Footer nav
 // document.getElementById('ul-footer-nav').addEventListener('click', e => {
@@ -58,36 +54,6 @@ const discountCodes = {
 //     if (type) handleClick[type]()
 //     if (tag === 'BUTTON') handleSelectNav(e.target)
 
-// })
-
-
-
-// Menu item add btns
-// ulMenu.addEventListener('click', e => {
-//     const id = e.target.dataset.id
-//     if (id) handleAddItemToOrder(id)
-// })
-
-// View basket btn (via parent section element, so we can re-render btn whenever we want)
-// secBasket.addEventListener('click', e => {
-//     const type = e.target.dataset.type
-//     if (type === 'basket') showModal(modalBasket, true)
-// })
-
-// // Order confirmation modal, just a close btn (resets order system when clicked)
-// modalordernfirmation.addEventListener('click', e => {
-//     const type = e.target.dataset.type
-//     console.log(e.target.dataset.starId)
-
-//     const handleClick = {
-//         close: () => {
-//             showModal(modalOrderConfirmation, false)
-//         },
-//         star: () => {
-//             renderStars(e.target.dataset.starId)
-//         }
-//     }
-//     if (type) handleClick[type]()
 // })
 
 // Basket buttons, go to checkout, remove ite, or close
@@ -209,137 +175,35 @@ const renderDiscounts = discountCodes => {
     document.getElementById('ul-discounts').innerHTML = html
 }
 
-// Refreshes the View Basket button on the main page according to current basket contents
-// Should be called whenever basket is changed
-
-
-// Renders the menu filter buttons according to the categories in the menuArry. Categories
-// are generated dynamically, so we can easily add more items with new categories to the array 
-
-
-// Highlight whichever order type the user selected (this is cosmetic only, no real function in this app)
-// const handleSelectOrderType = target => {
-//     document.querySelectorAll('.btn-order-type.selected').forEach(el => el.classList.remove('selected'))
-//     target.classList.add('selected')
-// }
-
-// Highlight selected footer button. If no target is passed in, nothing gets selected and any existing selections
-// are removed
-
-
-// Take care of cosmetics when selecting a filter button, and re-render the menu to show the selected
-// category
-// Reset the ordering system, clear basket, clear discount codes etc...
-const handleReset = () => {
-    basket = []
-    discountMultiplier = 0
-    currentStarRating = 1
-    renderViewBasketBtn(basket)
-}
-
-// Called before handle reset when user closes the order confirmation modal
-const saveOrder = basket => {
-    // Build an object containing details about the currentorder and push it to the 
-    // orderHistory array
-    const orderObj = {
-        items: basket.map(item => item.name),
-        total: getOrderTotal(basket),
-        starRating: currentStarRating,
-        date: new Date().toLocaleDateString('en-GB', {
-            month: 'short',
-            day: 'numeric',
-        })
-    }
-    orderHistory.push(orderObj)
-}
-
-// Apply discount if valid
-
-// ------------------------ //
-// --- HELPER FUNCTIONS --- //
-// ------------------------ //
-
-// Calculate order total (with discount, if applied)
-
-// Used when rendering totals, if discount is applied return a span with a 'discount applied' message,
-// else return an empty string; to be used inside string template
-
-
-// Show or hide the specified modal, and call the respective function assigned
-// to the id of the modal we're displaying; in this way we can execute tasks 
-// before showing the modal dialog
-const showModal = (modal, doShow) => {
-    
-    // These functions will be called before the modal displays
-    const getReadyToShow = {
-        'modal-my-orders': () => {
-            renderOrderHistory(orderHistory)
-        },
-        'modal-basket': () => {
-            renderBasket(basket)
-        },
-        'modal-checkout': () => {
-            renderCheckout(basket)
-        },
-        'modal-order-confirmation': () => {
-            renderOrderConfirmation(basket)
-        },
-        'modal-discounts': () => {
-            renderDiscounts(discountCodes)
-        }
-    }
-    
-    // These functions will be called when a given modal is closed
-    const cleanUp = {
-        'modal-my-orders': () => {
-            handleSelectNav()
-        },
-        'modal-order-confirmation': () => {
-            saveOrder(basket)
-            handleReset()
-        },
-        'modal-discounts': () => {
-            handleSelectNav()
-        }
-    }
-    
-    // are we showing (doShow = true) or not? 
-    if (doShow) {
-        // If we specified any setup code for the modal, run it now
-        if (Object.keys(getReadyToShow).includes(modal.id)) getReadyToShow[modal.id]()
-        modal.showModal()
-    } else {
-        // If there's any cleanup code to run, do so
-        if (Object.keys(cleanUp).includes(modal.id)) cleanUp[modal.id]()
-        modal.close()
-    }
-}
-// Show the menu
-// renderMenu(menuArray, defaultCategory)
-// renderViewBasketBtn(basket)
-// renderFilterBtns(defaultCategory)
-
 // Build the main screen
 document.querySelector('#app-container').appendChild(header.getHeader())
 document.querySelector('#app-container').appendChild(divInnerContainer)
 document.querySelector('#div-inner-container').appendChild(menu)
 document.querySelector('#div-inner-container').appendChild(btnViewBasket.getElement())
-document.querySelector('#div-inner-container').appendChild(footer.getElement())
+document.querySelector('#div-inner-container').appendChild(footer.get())
 
 // Add the modals 
-document.querySelector('#div-inner-container').appendChild(modalViewBasket.getElement())
-document.querySelector('#div-inner-container').appendChild(modalCheckout.getElement())
-document.querySelector('#div-inner-container').appendChild(modalOrderConfirmation.getElement())
-document.querySelector('#div-inner-container').appendChild(modalMyOrders.getElement())
-
+document.querySelector('#div-inner-container').appendChild(modalViewBasket.get())
+document.querySelector('#div-inner-container').appendChild(modalCheckout.get())
+document.querySelector('#div-inner-container').appendChild(modalOrderConfirmation.get())
+document.querySelector('#div-inner-container').appendChild(modalMyOrders.get())
+document.querySelector('#div-inner-container').appendChild(modalDiscounts.get())
 
 btnViewBasket.addEventListeners()
 footer.addEventListeners()
 modalViewBasket.addEventListeners()
 modalCheckout.addEventListeners()
 modalOrderConfirmation.addEventListeners()
+modalMyOrders.addEventListeners()
+modalDiscounts.addEventListeners()
 
 // TODO 1: Can we move render stars into it's own component
 // TODO 2: Finish the last modal
 // TODO 3: Homogenize all modals (refreshContent etc)
 // TODO 4: Add event listeners to my orders modal (Finish myOrders modal)
+// TODO 5: Add a 'Clear order' button on the main screen
+// TODO 6: Add functionality to count how many of each item has been ordered and display it
+//         in the relevant places
+// TODO 7: Add a getPercentage helper function to use when rendering the discounts
+// TODO 8: Get rid of the isLastIter function
+// TODO 9: Get rid of focus highlight on footer nav

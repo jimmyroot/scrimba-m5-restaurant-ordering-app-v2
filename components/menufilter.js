@@ -1,4 +1,4 @@
-import menuArray from "../data/menu"
+import menuArray from "../data/data"
 import { menuList } from './menulist' 
 const MenuFilter = () => {
 

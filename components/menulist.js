@@ -1,4 +1,4 @@
-import menuArray from '../data/menu'
+import menuArray from '../data/data'
 import { app } from '../data/app'
 import { btnViewBasket } from './btnviewbasket'
 

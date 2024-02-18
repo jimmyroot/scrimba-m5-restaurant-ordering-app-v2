@@ -153,7 +153,7 @@ const ModalCheckout = () => {
         document.querySelector('#modal-checkout').close()
     }
 
-    const getElement = () => {
+    const get = () => {
         return node
     }
 
@@ -164,7 +164,7 @@ const ModalCheckout = () => {
     refreshContent()
 
     return {
-        getElement,
+        get,
         addEventListeners,
         show,
         hide

@@ -4,7 +4,6 @@ import { btnViewBasket } from "../components/btnviewbasket"
 
 const ModalOrderConfirmation = () => {
     
-    
     const addEventListeners = () => {
         node.addEventListener('click', e => {
             const handleClick = {
@@ -93,7 +92,7 @@ const ModalOrderConfirmation = () => {
         return starArr.map(star => star).join('')
     }
         
-    const getElement = () => {
+    const get = () => {
         return node
     }
 
@@ -119,7 +118,7 @@ const ModalOrderConfirmation = () => {
     refreshContent()
 
     return {
-        getElement,
+        get,
         addEventListeners,
         show,
         hide
