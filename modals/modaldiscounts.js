@@ -1,18 +1,11 @@
-import { app } from "../data/app"
+import { cafe } from "../app/cafe"
 import { footer } from "../layout/footer"
 
-const ModalDiscounts = () => { // Change this to your modal name
+const ModalDiscounts = () => { 
 
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            const handleClick = {
-                close: () => {
-                    hide()
-                }
-            }
-
-            const type = e.target.dataset.type
-            if (type) handleClick[type]()
+            handleClick(e.target.dataset.type)
         })
     
         node.addEventListener('cancel', e => {
@@ -21,24 +14,35 @@ const ModalDiscounts = () => { // Change this to your modal name
         })
     }
 
-    const renderContent = () => {
+    const handleClick = ( type ) => {
+        const execute = {
+            hide: () => {
+                hide()
+            }
+        }
+
+        if (type) execute[type]()
+    }
+
+    const render = () => {
         let html = `
             <div class="modal-inner">
                 <header>
-                    <h3 class="modal-title">For you <i class='bx bxs-donate-heart bx-lg' ></i></h3>
+                    <h3 class="modal-title">For you <i class='bx bxs-donate-heart bx-lg'></i></h3>
                     <div class="div-divider div-divider-accent"></div>
                 </header>
                 ${renderDiscounts()}
                 <footer>
-                    <button class="btn-modal-main" data-type="close">Close</button>
+                    <button class="btn-modal-main" data-type="hide">Close</button>
                 </footer>
             </div>
         `
+
         return html
     }
 
     const renderDiscounts = () => {
-        const discountCodes = app.getDiscountCodes()
+        const discountCodes = cafe.getDiscountCodes()
 
         let html = `
             <ul class="ul-discounts" id="ul-discounts">
@@ -58,28 +62,26 @@ const ModalDiscounts = () => { // Change this to your modal name
         return html
     }
 
-    const refreshContent = () => {
-        node.innerHTML = renderContent()
+    const refresh = () => {
+        node.innerHTML = render()
     }
 
     const show = () => {
-        refreshContent()
-        document.querySelector('#modal-discounts').showModal() //Modify this with id of the modal
+        refresh()
+        node.showModal()
     }
 
     const hide = () => {
-        document.querySelector('#modal-discounts').close() //Modify this with id of the modal
+        node.close()
         footer.handleSelectNav()
     }
 
-    // Call this function to add your modal to the DOM, like...
-    // document.querySelector('element-you'll-append-modal-to).appendChild(modal.getElement())
     const get = () => {
-        refreshContent()
+        refresh()
         return node
     }
 
-    // Scaffold the modal
+    // Modal scaffold
     const node = document.createElement('dialog')
     node.classList.add('modal')
     node.id = 'modal-discounts'

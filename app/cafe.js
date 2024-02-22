@@ -1,13 +1,15 @@
 import { v4 as newUUID } from 'https://jspm.dev/uuid'
+import menuArray from './data'
+import { btnViewBasket } from '../components/btnviewbasket'
 
-const App = () => {
+const Cafe = () => {
 
     // Init app variables
     let basket = []
     let orderHistory = []
     let discountMultiplier = 0
     let currentStarRating = 3
-    let discountCodes = {
+    const discountCodes = {
         'JAN10': 0.9,
         'OFF20': 0.8
     }
@@ -32,29 +34,35 @@ const App = () => {
         return discountCodes
     }
     
-    const setDiscountMultiplier = (multiplier) => {
+    const setDiscountMultiplier = ( multiplier ) => {
         discountMultiplier = multiplier
     }
 
-    const setCurrentStarRating = (numStars) => {
+    const setCurrentStarRating = ( numStars ) => {
         currentStarRating = numStars
     }
 
-    const addToBasket = (menuArray, id) => {
+    const getMenuArray = () => {
+        return menuArray
+    }
+
+    const addToBasket = ( id ) => {
         const itemToAdd = menuArray.find(item => item.id === +id)
-        // Deep copy it
+        // Deep copy the item
         let copyOfItemToAdd = structuredClone(itemToAdd)
         copyOfItemToAdd.instanceId = newUUID()
         basket.push(copyOfItemToAdd)
+        btnViewBasket.refresh(basket, getOrderTotal())
     }
 
-    const removeFromBasket = (instanceIdToRemove) => {
+    const removeFromBasket = ( instanceIdToRemove ) => {
         // Use reduce to return a new array that doesn't include the item
         // we're removing
         basket = basket.reduce((arr, item) => {
             if (item.instanceId !== instanceIdToRemove) arr.push(item)
             return arr
         }, [])
+        btnViewBasket.refresh(basket, getOrderTotal())
     }
 
     const archiveOrder = () => {
@@ -90,22 +98,65 @@ const App = () => {
         basket = []
         discountMultiplier = 0
         currentStarRating = 3
+        btnViewBasket.refresh(basket, getOrderTotal())
     }
 
+    // Apply discount if code is valid
+    const handleApplyDiscount = () => {
+        const inputDiscount = document.getElementById('ipt-discount')
+        const code = inputDiscount.value
+        const discountCodes = cafe.getDiscountCodes()
+
+        // Check if the discount code exists 
+        if (Object.keys(discountCodes).includes(code)) {
+            // If so set the discountMultiplier
+            setDiscountMultiplier(discountCodes[code])
+            // Remove the warning class if it's there
+            if (inputDiscount.classList.contains('warning')) inputDiscount.classList.remove('warning')
+            // renderCheckout(basket)
+        } else {
+            // disable discount, show warning; the discount code was invalid
+            setDiscountMultiplier(0)
+            inputDiscount.classList.add('warning')
+            // renderCheckout(basket)
+        }
+        inputDiscount.value = ''
+    }
+    
+    const renderDiscountStatus = () => {
+        let html = ''
+        if (discountMultiplier > 0) {
+            const percentDiscount = getDiscountPercentage(discountMultiplier)
+            html = `
+                <span class="spn-discount">
+                    ${percentDiscount}% discount applied 
+                </span>&nbsp;
+            `
+        }
+        return html
+    }
+        
+    const getDiscountPercentage = ( discountMultiplier ) => {
+        return (100-(discountMultiplier / 1 * 100))
+    }
+    
     return {
         getBasket,
+        getMenuArray,
         getDiscountMultiplier,
         getOrderHistory,
         getCurrentStarRating,
         getDiscountCodes,
         getOrderTotal,
-        addToBasket,
-        removeFromBasket,
         setDiscountMultiplier,
         setCurrentStarRating,
+        addToBasket,
+        removeFromBasket,
         archiveOrder,
-        handleReset
+        renderDiscountStatus,
+        handleReset,
+        handleApplyDiscount
     }
 }
 
-export const app = App()
+export const cafe = Cafe()

@@ -1,40 +1,42 @@
-import { app } from "../data/app"
+import { cafe } from "../app/cafe"
 import { modalViewBasket } from "./modalviewbasket"
 import { btnViewBasket } from "../components/btnviewbasket"
 import { modalOrderConfirmation } from "./modalorderconfirmation"
-import { renderDiscountStatus, handleApplyDiscount } from "../helpers/helpers"
 
 const ModalCheckout = () => {
 
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            const handleClick = {
-                pay: () => {
-                    const form = document.querySelectorAll('#form-card-detail')[0]
-                    if (isFormComplete(form)) handlePayment(form)
-                },
-                back: () => {
-                    hide()
-                    modalViewBasket.show()
-                },
-                close: () => {
-                    hide()
-                },
-                discount: () => {
-                    handleApplyDiscount()
-                    refreshTotal()
-                    btnViewBasket.refreshBtnViewBasket()
-                }
-            }
-
-            const type = e.target.dataset.type
-            if (type) handleClick[type]()
+            handleClick(e.target.dataset.type)
         }
     )}
 
+    const handleClick = ( type ) => {
+        const execute = {
+            pay: () => {
+                const form = document.querySelectorAll('#form-card-detail')[0]
+                if (isFormComplete(form)) handlePayment(form)
+            },
+            back: () => {
+                hide()
+                modalViewBasket.show()
+            },
+            hide: () => {
+                hide()
+            },
+            discount: () => {
+                cafe.handleApplyDiscount()
+                refreshTotal()
+                btnViewBasket.refresh()
+            }
+        }
+
+        if (type) execute[type]()
+    }
+
     const renderContent = () => {
-        const discountMultiplier = app.getDiscountMultiplier()
-        const orderTotal = app.getOrderTotal()
+        const discountMultiplier = cafe.getDiscountMultiplier()
+        const orderTotal = cafe.getOrderTotal()
 
         const modalHtml = `
             <div class="modal-inner">
@@ -44,7 +46,7 @@ const ModalCheckout = () => {
                     <button class="btn-modal-back" data-type="back">
                         <i class='bx bx-chevron-left bx-md' ></i>
                     </button>
-                    <button class="btn-modal-close" data-type="close">
+                    <button class="btn-modal-close" data-type="hide">
                         <i class='bx bx-x bx-md'></i>
                     </button>
                 </header>
@@ -92,7 +94,7 @@ const ModalCheckout = () => {
                 <footer>
                     <div class="div-space-between" id="div-checkout-total">
                         <p>Total
-                            ${renderDiscountStatus(discountMultiplier)}
+                            ${cafe.renderDiscountStatus()}
                         :</p>
                         <p id="p-basket-total">£${orderTotal}</p>
                     </div>
@@ -117,11 +119,11 @@ const ModalCheckout = () => {
     }
 
     const refreshTotal = () => {
-        const discountMultiplier = app.getDiscountMultiplier()
-        const orderTotal = app.getOrderTotal()
+        const discountMultiplier = cafe.getDiscountMultiplier()
+        const orderTotal = cafe.getOrderTotal()
 
         document.querySelector('#div-checkout-total').innerHTML = `
-            <p>Total ${renderDiscountStatus(discountMultiplier)}:</p>
+            <p>Total ${cafe.renderDiscountStatus()}:</p>
             <p id="p-basket-total">£${orderTotal}</p>
         `
     }
@@ -146,11 +148,11 @@ const ModalCheckout = () => {
 
     const show = () => {
         refreshContent()
-        document.querySelector('#modal-checkout').showModal()
+        node.showModal()
     }
 
     const hide = () => {
-        document.querySelector('#modal-checkout').close()
+        node.close()
     }
 
     const get = () => {
@@ -161,13 +163,12 @@ const ModalCheckout = () => {
     const node = document.createElement('dialog')
     node.classList.add('modal')
     node.id = 'modal-checkout'
-    refreshContent()
 
     return {
         get,
-        addEventListeners,
         show,
-        hide
+        hide,
+        addEventListeners
     }
 }
 

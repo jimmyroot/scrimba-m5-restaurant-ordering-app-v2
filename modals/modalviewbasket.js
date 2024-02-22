@@ -1,44 +1,46 @@
-import { app } from "../data/app"
+import { cafe } from "../app/cafe"
 import { btnViewBasket } from "../components/btnviewbasket"
 import { modalCheckout } from "./modalcheckout"
-import { renderDiscountStatus } from "../helpers/helpers"
 
 const ModalViewBasket = () => {
 
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            const handleClick = {
-                checkout: () => {
-                    hide()
-                    modalCheckout.show()
-                },
-                close: () => {
-                    hide()
-                },
-                remove: () => {
-                    app.removeFromBasket(e.target.dataset.instanceId)
-                    refreshBasket()
-                    btnViewBasket.refreshBtnViewBasket()
-                }
-            }
-            
-            const type = e.target.dataset.type
-            if (type) handleClick[type]()
+            handleClick(e.target, e.target.dataset.type)
         })
     }
 
-    const renderContent = () => {
+    const handleClick = ( target, type ) => {
+        const execute = {
+            checkout: () => {
+                hide()
+                modalCheckout.show()
+            },
+            hide: () => {
+                hide()
+            },
+            remove: () => {
+                cafe.removeFromBasket(target.dataset.instanceId)
+                refresh()
+                btnViewBasket.refresh()
+            }
+        }
 
-        const basket = app.getBasket()
-        const discountMultiplier = app.getDiscountMultiplier()
-        const orderTotal = app.getOrderTotal()
+        if (type) execute[type]()
+    }
+
+    const render = () => {
+
+        const basket = cafe.getBasket()
+        const discountMultiplier = cafe.getDiscountMultiplier()
+        const orderTotal = cafe.getOrderTotal()
 
         let modalHtml = `
             <div class="modal-inner">
                 <header>
                     <h3 class="modal-title">Your basket</h3>
                     <div class="div-divider div-divider-accent"></div>
-                    <button class="btn-modal-close" id="btn-close-view-basket" data-type="close">
+                    <button class="btn-modal-close" id="btn-close-view-basket" data-type="hide">
                         <i class='bx bx-x bx-md'></i>
                     </button>
                 </header>
@@ -70,7 +72,7 @@ const ModalViewBasket = () => {
             </ul>
             <footer>
                 <div class="div-space-between" id="div-basket-total">
-                    <p>Total ${renderDiscountStatus(discountMultiplier)}:</p>
+                    <p>Total ${cafe.renderDiscountStatus()}:</p>
                     <p id="p-basket-total">£${orderTotal}</p>
                 </div>
                 <button class="btn-modal-main" id="btn-checkout" data-type="checkout"
@@ -83,10 +85,8 @@ const ModalViewBasket = () => {
         return modalHtml
     }
 
-    // Whenever calling this you should also call refreshBtnViewBasket
-    // from the relevant module
-    const refreshBasket = () => {
-        node.innerHTML = renderContent()
+    const refresh = () => {
+        node.innerHTML = render()
     }
 
     const get = () => {
@@ -94,30 +94,24 @@ const ModalViewBasket = () => {
     }
 
     const show = () => {
-        refreshBasket()
-        document.querySelector('#modal-basket').showModal()
+        refresh()
+        node.showModal()
     }
 
     const hide = () => {
-        document.querySelector('#modal-basket').close()
+        node.close()
     }
 
     const node = document.createElement('dialog')
     node.classList.add('modal')
     node.id = 'modal-basket'
 
-    // const ul = document.createElement('ul')
-    // ul.classList.add('ul-order', 'overflow-thin-scrollbar')
-    // ul.id = 'ul-basket-items'
-
-    refreshBasket()
-
     return {
         get,
-        addEventListeners,
         show,
         hide,
-        refreshBasket
+        refresh,
+        addEventListeners
     }
 }
 

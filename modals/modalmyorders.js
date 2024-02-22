@@ -1,30 +1,30 @@
-import { app } from "../data/app"
+import { cafe } from "../app/cafe"
 import { footer } from "../layout/footer"
 
 const ModalMyOrders = () => {
 
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            const handleClick = {
-                close: () => {
-                    hide()
-                    // Haven't figured out a more graceful way to do this yet, it basically removes 
-                    // the 'selected' styling from the footer button when we close the 
-                    // modal
-                }
-            }
-
-            const type = e.target.dataset.type
-            if (type) handleClick[type]()
+            handleClick(e.target.dataset.type)
         })
     
         node.addEventListener('cancel', e => {
-           e.preventDefault()
-           hide()
+            e.preventDefault()
+            hide()
         })
     }
 
-    const renderContent = () => {
+    const handleClick = ( type ) => {
+        const execute = {
+            hide: () => {
+                hide()
+            }
+        }
+
+        if (type) execute[type]()
+    }
+
+    const render = () => {
         const html = `
             <div class="modal-inner">
                 <header>
@@ -34,15 +34,16 @@ const ModalMyOrders = () => {
                     ${renderOrderHistory()}
                 </ul>
                 <footer>
-                    <button class="btn-modal-main" data-type="close">Close</button>
+                    <button class="btn-modal-main" data-type="hide">Close</button>
                 </footer>
             </div>
         `
+
         return html
     }
 
     const renderOrderHistory = () => {
-        const orderHistory = app.getOrderHistory()
+        const orderHistory = cafe.getOrderHistory()
 
         let html = `<ul class="ul-order-history" id="ul-order-history">`
 
@@ -51,7 +52,7 @@ const ModalMyOrders = () => {
             const starRating = []
             while (starRating.length < order.starRating) {
                 starRating.push(`<i class="bx bxs-star"></i>`)
-            } 
+            }
             
             return `
                 <li class="li-order-history">
@@ -64,51 +65,43 @@ const ModalMyOrders = () => {
                 </li>
                 ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
             `
-        }).join('').concat('</ul>') 
+        })
+        .join('')
+        .concat('</ul>') 
 
         return html
     }
 
-    const refreshContent = () => {
-        node.innerHTML = renderContent()
+    const refresh = () => {
+        node.innerHTML = render()
     }
 
     const show = () => {
-        refreshContent()
-        document.querySelector('#modal-my-orders').showModal() //Modify this with id of the modal
+        refresh()
+        node.showModal() //Modify this with id of the modal
     }
 
     const hide = () => {
-        document.querySelector('#modal-my-orders').close() //Modify this with id of the modal
+        node.close() //Modify this with id of the modal
         footer.handleSelectNav()
     }
 
-    // Call this function to add your modal to the DOM, like...
-    // document.querySelector('element-you'll-append-modal-to).appendChild(modal.get())
     const get = () => {
-        refreshContent()
+        refresh()
         return node
     }
 
-    // Scaffold the modal
+    // Modal scaffold
     const node = document.createElement('dialog')
     node.classList.add('modal')
     node.id = 'modal-my-orders'
 
-    // Fill it with anything if it exists, although this is kinda pointless
-    // as we'll call refreshContent when we 'show' the modal anyway...so guess
-    // we dont' actually need this...it just seems 'complete' haha. I'm weird.
-    refreshContent()
-
     return {
         get,
-        addEventListeners,
         show,
-        hide
+        hide,
+        addEventListeners
     }
 }
 
-// Modify this with the name of the modal
-// Export the modal as an instance of the main function, 
-// basically it's a class just without the 'class' keyword
 export const modalMyOrders = ModalMyOrders() 

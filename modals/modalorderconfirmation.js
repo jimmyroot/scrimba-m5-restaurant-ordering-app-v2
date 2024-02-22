@@ -1,34 +1,36 @@
-import { app } from "../data/app"
-import { renderDiscountStatus } from "../helpers/helpers"
-import { btnViewBasket } from "../components/btnviewbasket"
+import { cafe } from "../app/cafe"
+import { stars } from "../components/stars"
 
 const ModalOrderConfirmation = () => {
     
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            const handleClick = {
-                close: () => {
-                    app.archiveOrder()
-                    app.handleReset()
-                    btnViewBasket.refreshBtnViewBasket()
-                    hide()
-                },
-                star: () => {
-                    app.setCurrentStarRating(e.target.dataset.starId)
-                    refreshContent()
-                }
-            }
-            const type = e.target.dataset.type
-            if (type) handleClick[type]()
+            handleClick(e.target, e.target.dataset.type)
         }
     )}
 
-    const renderContent = () => {
-        const basket = app.getBasket()
-        const discountMultiplier = app.getDiscountMultiplier()
-        const orderTotal = app.getOrderTotal()
-        const currentStarRating = app.getCurrentStarRating()
+    const handleClick = ( target, type ) => {
+        const execute = {
+            hide: () => {
+                cafe.archiveOrder()
+                cafe.handleReset()
+                hide()
+            },
+            star: () => {
+                cafe.setCurrentStarRating(target.dataset.starId)
+                refresh()
+            }
+        }
 
+        if (type) execute[type]()
+    }
+
+    const render = () => {
+        const basket = cafe.getBasket()
+        const orderTotal = cafe.getOrderTotal()
+        const numStars = cafe.getCurrentStarRating()
+
+        // const html = document.createElement('div')
         let html = `
             <div class="modal-inner">
                 <header>
@@ -40,32 +42,27 @@ const ModalOrderConfirmation = () => {
                 <ul class="ul-order-confirmation overflow-thin-scrollbar" id="u-modal-order-complete-details">
         `
 
+        // This needs to be changed to li
         html += basket.map(item => {
             return `
-                <div class="div-ordered-item">
-                    <p>${item.name}</p><p>£${item.price.toFixed(2)}</p>
-                </div>
+                    <div class="div-ordered-item">
+                        <p>${item.name}</p><p>£${item.price.toFixed(2)}</p>
+                    </div>
             `
         }).join('')
 
         html += `
-                <li>
-                    <div class="div-divider div-divider-accent"></div>
-                    <div class="div-space-between">
-                        <p>Total: ${renderDiscountStatus(discountMultiplier)}</p>
-                        <p>£${orderTotal}</p>
-                    </div>
-                </li>
-
+                    <li>
+                        <div class="div-divider div-divider-accent"></div>
+                        <div class="div-space-between">
+                            <p>Total: ${cafe.renderDiscountStatus()}</p>
+                            <p>£${orderTotal}</p>
+                        </div>
+                    </li>
                 </ul>
-                <div class="div-star-rating">
-                    <h4 class="h4-modal">Rate your experience</h4>
-                    <ul class="ul-star-rating" id="ul-star-rating">
-                    ${renderStars(currentStarRating)}
-                    </ul>
-                </div>
+                ${stars.get(numStars)}
                 <footer>
-                    <button class="btn-modal-main" data-type="close">Back to menu</button>
+                    <button class="btn-modal-main" data-type="hide">Back to menu</button>
                 </footer>
             </div>
         `
@@ -73,55 +70,34 @@ const ModalOrderConfirmation = () => {
         return html
     }
 
-    // Render the stars 
-    const renderStars = (numStars) => {
-        let starArr = []
-        for (let star = 1; star <= 5; star++) {
-            star <= numStars ? 
-                starArr.push(`
-                    <li class="li-star solid" data-type="star" data-star-id="${star}">
-                        <i class="bx bxs-star"></i>
-                    </li>
-                `) : 
-                starArr.push(`
-                    <li class="li-star" data-type="star" data-star-id="${star}">
-                        <i class="bx bxs-star" ></i>
-                    </li>
-                `)
-        }
-        return starArr.map(star => star).join('')
-    }
-        
     const get = () => {
+        refresh()
         return node
     }
 
-    const refreshContent = () => {
-        node.innerHTML = renderContent()
+    const refresh = () => {
+        node.innerHTML = render()
     }
 
     const show = () => {
-        refreshContent()
-        document.querySelector('#modal-order-confirmation').showModal()
+        refresh()
+        node.showModal()
     }
 
     const hide = () => {
-        document.querySelector('#modal-order-confirmation').close()
+        node.close()
     }
 
-    // Scaffold the modal
+    // Modal scaffold
     const node = document.createElement('dialog')
     node.classList.add('modal')
     node.id = 'modal-order-confirmation'
 
-    // Flesh it out
-    refreshContent()
-
     return {
         get,
-        addEventListeners,
         show,
-        hide
+        hide,
+        addEventListeners
     }
 }
 

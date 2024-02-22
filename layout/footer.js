@@ -4,25 +4,30 @@ import { modalMyOrders } from "../modals/modalmyorders"
 const Footer = () => {
 
     const addEventListeners = () => {
-        document.querySelector('#ul-footer-nav').addEventListener('click', e => {
+        node.addEventListener('click', e => {
             
-            const handleClick = {
-                orders: () => {
-                    modalMyOrders.show()
-                },
-                discounts: () => {
-                    modalDiscounts.show()
-                }
-            }
-            const type = e.target.dataset.type
-            if (type) handleClick[type]()
+            handleClick(e)
             
-            // A little visual flair when we click on each button
+            // A little visual flair when we click on each nav button
             if (e.target.tagName === 'BUTTON') handleSelectNav(e.target)
         })
     }
 
-    const renderContent = () => {
+    const handleClick = (e) => {
+        const execute = {
+            orders: () => {
+                modalMyOrders.show()
+            },
+            discounts: () => {
+                modalDiscounts.show()
+            }
+        }
+
+        const type = e.target.dataset.type
+        if (type) execute[type]()
+    }
+
+    const render = () => {
         const html = `
             <ul class="ul-footer-nav" id="ul-footer-nav">
                 <li class="li-footer-nav">
@@ -55,12 +60,12 @@ const Footer = () => {
         return html
     }
 
-    const refreshContent = () => {
-        node.innerHTML = renderContent()
+    const refresh = () => {
+        node.innerHTML = render()
     }
 
     const get = () => {
-        refreshContent()
+        refresh()
         return node
     }
 
@@ -78,7 +83,6 @@ const Footer = () => {
         addEventListeners,
         handleSelectNav
     }
-
 }
 
 export const footer = Footer()

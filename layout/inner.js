@@ -1,6 +1,17 @@
-const divInnerContainer = document.createElement('div')
+const Inner = () => {
 
-divInnerContainer.classList.add('div-inner-container')
-divInnerContainer.id = 'div-inner-container'
+    const node = document.createElement('div')
+    node.classList.add('div-app-inner')
+    node.id = 'div-app-inner'
+    
+    const get = () => {
+        return node
+    }
 
-export default divInnerContainer
+    return {
+        get
+    }
+
+}
+
+export const inner = Inner()
