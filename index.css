@@ -1,7 +1,5 @@
 *, *::before, *::after {
     box-sizing: inherit;
-    /* border: 1px solid hotpink; */
-    /* padding: 5px; */
 }
 
 :root {
@@ -132,6 +130,20 @@ h1 {
 }
 
 /* Page element styles */
+
+.div-app-outer {
+    background-color: var(--darkest);
+    background-image: url('assets/beans.png');
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    width: 600px;
+    border-radius: var(--ext-br);
+    box-shadow: var(--shadow-elevation-high);
+    padding-top: 25px;
+    margin: 50px auto;
+}
 
 .main,
 .header,
