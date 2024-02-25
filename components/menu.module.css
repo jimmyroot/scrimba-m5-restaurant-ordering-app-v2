@@ -1,0 +1,96 @@
+.menu-options {
+    composes: flex-column large-gap from '../css/layout.css'
+}
+
+.order-type-container {
+    composes: flex-row medium-gap align-all from '../css/layout.css'
+}
+
+.btn-normal { 
+    composes: flex-row all-center small-gap from '../css/layout.css';
+    composes: font-color-lightest from '../css/styles.css';
+    background-color: var(--light);
+    font-size: 24px;
+    font-weight: 400;
+    border-radius: var(--int-br);
+    padding: 20px 0;
+    flex-grow: 1;
+    color: var(--lightest)
+}
+
+.btn-selected {
+    composes: btn-normal;
+    background-color: var(--darkest);
+}
+
+
+
+.ul-filter {
+    composes: flex-row large-gap ul-unstyled from '../css/layout.css';
+
+    li {
+        flex-grow: 1;
+
+        button {
+            background-color: var(--light);
+            color: var(--lightest);
+            font-size: 20px;
+            border-radius: var(--int-br-small);
+            width: 100%;
+            padding: 8px 0;
+        }
+
+        .selected {
+            background-color: var(--darkest);
+        }
+    }
+}
+
+.ul-menu {
+    composes: flex-column ul-unstyled from '../css/layout.css';
+    margin: 6px auto;
+    
+    li {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 0;
+
+        img { 
+            width: 100px;
+            aspect-ratio: 1/1;
+            align-self: center;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        button {
+            background-color: var(--darkest);
+            border-radius: 50px;
+            align-self: center;
+            line-height: 0;
+            color: var(--lightest);
+            padding: 14px;
+        }
+    }
+}
+
+.item-name {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.item-detail {
+    font-size: 18px;
+    opacity: 0.75;
+}
+
+.divider {
+    composes: divider divider-primary from '../css/layout.css'
+}

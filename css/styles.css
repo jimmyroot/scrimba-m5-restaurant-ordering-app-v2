@@ -1,0 +1,11 @@
+.border-rounded-large {
+    border-radius: var(--ext-br);
+    /* border-radius: 15px; */
+}
+
+.font-color-lightest {
+    color: var(--lightest)
+}
+/* .border-rounded-small {
+
+} */

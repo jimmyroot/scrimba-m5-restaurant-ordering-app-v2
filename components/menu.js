@@ -1,4 +1,5 @@
 import { cafe } from "../app/cafe"
+import styles from './menu.module.css'
 
 const Menu = () => {
 
@@ -46,18 +47,18 @@ const Menu = () => {
         // Render the order type 'at table' or 'to go' buttons, these are really just eye 
         // candy, they don't do anything in this app
         let html = `
-            <section class="sec-menu-controls">
-                <div class="div-order-type" id="div-order-type">
-                    <button class="btn-order-type ${toGo ? 'selected' : ''}" data-type="selectOrderType" data-to-go="true">
+            <section class="${styles['menu-options']}">
+                <div class="${styles['order-type-container']}" id="div-order-type">
+                    <button class="${toGo ? styles['btn-selected'] : styles['btn-normal']}" data-type="selectOrderType" data-to-go="true">
                         <i class="bx bx-coffee-togo bx-md"></i>
                         Order to go
                     </button>
-                    <button class="btn-order-type ${toGo ? '' : 'selected'}" data-type="selectOrderType" data-to-go="false">
+                    <button class="${toGo ? styles['btn-normal'] : styles['btn-selected']}" data-type="selectOrderType" data-to-go="false">
                         <i class="bx bx-qr-scan bx-md" ></i>
                         Order to table
                     </button>
                 </div>
-                <ul class="ul-menu-filter" id="ul-menu-filter">
+                <ul class="${styles['ul-filter']}" id="ul-menu-filter">
         `
 
         // Render the list of filter options 'coffee', 'breakfast', etc
@@ -69,10 +70,10 @@ const Menu = () => {
         html += filterCategories.map(category => {
             // Convert first letter to uppercase for the cateogry text
             const btnTxt = category.charAt(0).toUpperCase() + category.slice(1)
-            const isSelected = category === activeFilter ? 'selected' : ''
+            // const isSelected = category === activeFilter ? styles.selected : ''
             return `
-                <li class="li-menu-filter">
-                    <button class="btn-filter-category ${isSelected}" data-type="selectFilterType" data-filter="${category}">${btnTxt}</button>
+                <li>
+                    <button class="${category === activeFilter ? styles['selected'] : ''}" data-type="selectFilterType" data-filter="${category}">${btnTxt}</button>
                 </li>
             `
         })
@@ -85,28 +86,29 @@ const Menu = () => {
     const renderMenu = () => {
         let html = `   
             <section>
-                <ul id="ul-menu-list">
+                <ul class="${styles['ul-menu']}" id="ul-menu-list">
         `
 
         html += menuArray.filter(item => item.category === activeFilter).map((item, index, arr) => {
             const {name, ingredients, price, imageURL, id} = item
             // Create a boolean isLastIter to track if we are on the last iteration
             const isLastIter = ((index + 1) === arr.length)
+            const divider = `<div class="${styles.divider}"></div>`
             return `
-                <li class="li-menu-item">
-                    <img class="img-item" src="${imageURL}">
+                <li>
+                    <img src="${imageURL}">
                     <div>
-                        <span class="spn-item-name">${name}</span>
-                        <span class="spn-item-dets">
+                        <span class="${styles['item-name']}">${name}</span>
+                        <span class="${styles['item-detail']}">
                             ${ingredients.map(ingredient => ingredient).join(', ')}
                         </span>
-                        <span class="spn-item-dets">£${price.toFixed(2)}</span>
+                        <span class="${styles['item-detail']}">£${price.toFixed(2)}</span>
                     </div>
-                    <button class="btn-add" data-type="add" data-id="${id}">
+                    <button data-type="add" data-id="${id}">
                         <i class='bx bx-plus bx-md'></i>
                     </button>
                 </li>
-                ${isLastIter ? '' : '<div class="div-divider div-divider-primary"></div>'}
+                ${isLastIter ? '' : divider}
             `
         })
         .join('')

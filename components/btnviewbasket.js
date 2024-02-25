@@ -1,4 +1,5 @@
 import { modalViewBasket } from '../modals/modalviewbasket'
+import styles from './btnviewbasket.module.css'
 
 const BtnViewBasket = () => {
 
@@ -23,11 +24,11 @@ const BtnViewBasket = () => {
         const itemCount = basket.length
         
         const html = `
-            <button class="btn btn-view-basket" data-type="basket">
+            <button class="${styles['button']} data-type="basket">
                 <i class="bx bx-basket bx-lg"></i>
-                <span class="span-item-count">${itemCount}</span>
+                <span class="${styles['count']}">${itemCount}</span>
                 <span>View basket</span>
-                <span class="span-basket-total">£${total}</span>
+                <span class="${styles['total']}">£${total}</span>
             <button>
         `
 

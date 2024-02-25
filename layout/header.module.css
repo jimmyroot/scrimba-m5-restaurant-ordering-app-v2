@@ -1,0 +1,15 @@
+.tagline {
+    composes: lightest from "../css/layout.css";
+    composes: small-margin-top from "../css/layout.css";
+    composes: font-size-medium from "../css/type.css";
+}
+
+.header {
+    composes: flex-column large-gap align-center from "../css/layout.css"
+
+}
+
+.asides {
+    composes: font-color-lightest from "../css/styles.css";
+    font-size: 20px;
+}

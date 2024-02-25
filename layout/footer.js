@@ -1,5 +1,6 @@
 import { modalDiscounts } from "../modals/modaldiscounts"
 import { modalMyOrders } from "../modals/modalmyorders"
+import styles from './footer.module.css'
 
 const Footer = () => {
 
@@ -29,10 +30,10 @@ const Footer = () => {
 
     const render = () => {
         const html = `
-            <ul class="ul-footer-nav" id="ul-footer-nav">
+            <ul class="${styles.nav}" id="ul-footer-nav">
                 <li class="li-footer-nav">
                     <button class="btn-footer-nav">
-                        <img class="img-account" src="/assets/jimmy.png" alt="User avatar">
+                        <img class="${styles['avatar']}" src="/assets/jimmy.png" alt="User avatar">
                         <span>Account</span>
                     </button>
                 </li>
@@ -71,9 +72,10 @@ const Footer = () => {
 
     // This function is private to the module...does it work? 
     const handleSelectNav = target => {
-        const targetAlreadySelected = target ? target.classList.contains('selected') : false
-        document.querySelectorAll('.btn-footer-nav.selected').forEach(btn => btn.classList.remove('selected'))
-        if (target && !targetAlreadySelected) target.classList.add('selected')
+        const styleSelected = styles['selected']
+        const targetAlreadySelected = target ? target.classList.contains(styleSelected) : false
+        node.querySelectorAll(`.${styleSelected}`).forEach(btn => btn.classList.remove(styleSelected))
+        if (target && !targetAlreadySelected) target.classList.add(styleSelected)
     }
 
     const node = document.createElement('footer')
