@@ -1,5 +1,7 @@
 import { cafe } from "../app/cafe"
 import { footer } from "../layout/footer"
+import styles from './modal.module.css'
+import myOrdersStyles from './modalmyorders.module.css'
 
 const ModalMyOrders = () => {
 
@@ -26,15 +28,15 @@ const ModalMyOrders = () => {
 
     const render = () => {
         const html = `
-            <div class="modal-inner">
-                <header>
-                    <h3 class="modal-title">Order history</h3>
-                    <div class="div-divider div-divider-accent"></div>
+            <div class="${styles.inner}">
+                <header class="${styles.header}">
+                    <h3 class="${styles.title}">Order history</h3>
+                    <div class="${styles.divider}"></div>
                 </header>
                     ${renderOrderHistory()}
                 </ul>
-                <footer>
-                    <button class="btn-modal-main" data-type="hide">Close</button>
+                <footer class="${styles.footer}">
+                    <button class="${styles.btnMain}" data-type="hide">Close</button>
                 </footer>
             </div>
         `
@@ -45,7 +47,7 @@ const ModalMyOrders = () => {
     const renderOrderHistory = () => {
         const orderHistory = cafe.getOrderHistory()
 
-        let html = `<ul class="ul-order-history" id="ul-order-history">`
+        let html = `<ul class="${myOrdersStyles.ul}" id="ul-order-history">`
 
         html += orderHistory.map((order, index, arr) => {
             const isLastIter = ((index + 1) === arr.length)
@@ -55,15 +57,15 @@ const ModalMyOrders = () => {
             }
             
             return `
-                <li class="li-order-history">
-                    <div class="div-space-between">
+                <li class="${myOrdersStyles.li}">
+                    <div class="${styles.total}">
                             <p>${order.date}</p>
                             <p>£${order.total}</p>
                     </div>
                     <p>${order.items.map(item => item).join(', ')}</p>
                     <p>You thought this order was: ${starRating.map(star => star).join('')}</p>
                 </li>
-                ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
+                ${isLastIter ? '' : `<div class="${styles.divider}"></div>`}
             `
         })
         .join('')
@@ -93,7 +95,7 @@ const ModalMyOrders = () => {
 
     // Modal scaffold
     const node = document.createElement('dialog')
-    node.classList.add('modal')
+    node.className += styles.modal
     node.id = 'modal-my-orders'
 
     return {

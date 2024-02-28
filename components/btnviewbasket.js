@@ -5,18 +5,18 @@ const BtnViewBasket = () => {
 
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            handleClick(e)
+            console.log(e.target)
+            handleClick(e.target.dataset.type)
         })
     }
 
-    const handleClick = e => {
+    const handleClick = type => {
         const execute = {
             basket: () => {
                 modalViewBasket.show()
             }
         }
         
-        const type = e.target.dataset.type
         if (type) execute[type]()
     }
 
@@ -24,7 +24,7 @@ const BtnViewBasket = () => {
         const itemCount = basket.length
         
         const html = `
-            <button class="${styles['button']} data-type="basket">
+            <button class="${styles['button']}" data-type="basket">
                 <i class="bx bx-basket bx-lg"></i>
                 <span class="${styles['count']}">${itemCount}</span>
                 <span>View basket</span>

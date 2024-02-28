@@ -1,6 +1,8 @@
-import { cafe } from "../app/cafe"
-import { btnViewBasket } from "../components/btnviewbasket"
-import { modalCheckout } from "./modalcheckout"
+import { cafe } from '../app/cafe'
+import { btnViewBasket } from '../components/btnviewbasket'
+import { modalCheckout } from './modalcheckout'
+import styles from './modal.module.css'
+import basketStyles from './modalviewbasket.module.css' // Styles unique to this modal
 
 const ModalViewBasket = () => {
 
@@ -32,50 +34,49 @@ const ModalViewBasket = () => {
     const render = () => {
 
         const basket = cafe.getBasket()
-        const discountMultiplier = cafe.getDiscountMultiplier()
         const orderTotal = cafe.getOrderTotal()
 
         let modalHtml = `
-            <div class="modal-inner">
-                <header>
-                    <h3 class="modal-title">Your basket</h3>
-                    <div class="div-divider div-divider-accent"></div>
-                    <button class="btn-modal-close" id="btn-close-view-basket" data-type="hide">
+            <div class="${styles.inner}">
+                <header class="${styles.header}">
+                    <h3 class="${styles.title}">Your basket</h3>
+                    <div class="${styles.divider}"></div>
+                    <button class="${styles.btnClose}" id="btn-close-view-basket" data-type="hide">
                         <i class='bx bx-x bx-md'></i>
                     </button>
                 </header>
-                <ul class="ul-order overflow-thin-scrollbar" id="ul-basket-items">
+                <ul class="${styles.overflow} ${basketStyles.list}" id="ul-basket-items">
         `
             
         modalHtml += basket.map((item, index, arr) => {
             const {name, ingredients, price, imageURL, instanceId} = item
             const isLastIter = ((index + 1) === arr.length)
             return `
-                <li class="li-menu-item">
-                    <img class="img-item" src="${imageURL}">
-                    <div>
-                        <span class="spn-item-name">${name}</span>
-                        <span class="spn-item-dets">
+                <li class="${basketStyles.item}">
+                    <img class="${basketStyles.img}" src="${imageURL}">
+                    <div class="${basketStyles.details}">
+                        <span class="${basketStyles.emphasis}">${name}</span>
+                        <span class="${basketStyles.aside}">
                             ${ingredients.map(ingredient => ingredient).join(', ')}
                         </span>
-                        <span class="spn-item-dets">£${price.toFixed(2)}</span>
+                        <span class="${basketStyles.emphasis}">£${price.toFixed(2)}</span>
                     </div>
-                    <button class="btn-remove" data-instance-id="${instanceId}" data-type="remove">
+                    <button class="${basketStyles.btnRemove}" data-instance-id="${instanceId}" data-type="remove">
                         <i class='bx bx-minus bx-sm'></i>
                     </button>
                 </li>
-                ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
+                ${isLastIter ? '' : `<div class="${styles.divider}"></div>`}
             `
         })
         .join('')
         .concat(`
             </ul>
-            <footer>
-                <div class="div-space-between" id="div-basket-total">
+            <footer class="${styles.footer}">
+                <div class="${styles.total}" id="div-basket-total">
                     <p>Total ${cafe.renderDiscountStatus()}:</p>
-                    <p id="p-basket-total">£${orderTotal}</p>
+                    <p>£${orderTotal}</p>
                 </div>
-                <button class="btn-modal-main" id="btn-checkout" data-type="checkout"
+                <button class="${styles.btnMain}" id="btn-checkout" data-type="checkout"
                     ${basket.length > 0 ? '' : 'disabled'}
                 >Checkout</button>
             </footer>
@@ -103,7 +104,7 @@ const ModalViewBasket = () => {
     }
 
     const node = document.createElement('dialog')
-    node.classList.add('modal')
+    node.className += styles.modal
     node.id = 'modal-basket'
 
     return {

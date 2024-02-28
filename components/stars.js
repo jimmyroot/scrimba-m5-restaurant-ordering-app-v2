@@ -1,3 +1,4 @@
+import styles from './stars.module.css'
 
 const Stars = () => {
 
@@ -6,9 +7,9 @@ const Stars = () => {
     
     const render = () => {
         let html = `
-            <div class="div-star-rating">
-                <h4 class="h4-modal">Rate your experience</h4>
-                <ul class="ul-star-rating" id="ul-star-rating">
+            <div class="${styles.stars}">
+                <h4 class="${styles.subTitle}">Rate your experience</h4>
+                <ul class="${styles.ul}" id="ul-star-rating">
         `
 
         html += renderStars()
@@ -27,12 +28,12 @@ const Stars = () => {
         for (let star = 1; star <= 5; star++) {
             star <= starsToRender ?
                 starArr.push(`
-                    <li class="li-star solid" data-type="star" data-star-id="${star}">
+                    <li class="${styles.fullStar}" data-type="star" data-star-id="${star}">
                         <i class="bx bxs-star"></i>
                     </li>
                 `) : 
                 starArr.push(`
-                    <li class="li-star" data-type="star" data-star-id="${star}">
+                    <li class="${styles.hollowStar}" data-type="star" data-star-id="${star}">
                         <i class="bx bxs-star" ></i>
                     </li>
                 `)

@@ -657,11 +657,7 @@ h1 {
     line-height: 1.3;
 }
 
-.h4-card-det {
-    color: var(--accent-darkest);
-    font-weight: 400;
-    margin: 0;
-}
+
 
 .ipt-discount {
     width: 100%;

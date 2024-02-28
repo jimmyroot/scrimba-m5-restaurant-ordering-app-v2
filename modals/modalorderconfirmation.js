@@ -1,5 +1,7 @@
-import { cafe } from "../app/cafe"
-import { stars } from "../components/stars"
+import { cafe } from '../app/cafe'
+import { stars } from '../components/stars'
+import styles from './modal.module.css'
+import orderStyles from './modalorderconfirmation.module.css'
 
 const ModalOrderConfirmation = () => {
     
@@ -32,37 +34,37 @@ const ModalOrderConfirmation = () => {
 
         // const html = document.createElement('div')
         let html = `
-            <div class="modal-inner">
-                <header>
-                    <h3 class="modal-title">Thank you</i></h3>
-                    <div class="div-divider div-divider-accent"></div>
+            <div class="${styles.inner}">
+                <header class="${styles.header}">
+                    <h3 class="${styles.title}">Thank you</h3>
+                    <div class="${styles.divider}"></div>
                 </header>
-                <p class="p-modal">Your order is on it's way! Thank you for visiting. We hope to see you again.</p>
-                <h4 class="h4-modal">Your order</h4>
-                <ul class="ul-order-confirmation overflow-thin-scrollbar" id="u-modal-order-complete-details">
-        `
+                <p class="${orderStyles.darker}">Your order is on it's way! Thank you for visiting. We hope to see you again.</p>
+                <h4 class="${styles.subTitle}">Your order</h4>
+                <ul class="${orderStyles.ul} ${styles.overflow}" id="u-modal-order-complete-details">
+        `   
 
         // This needs to be changed to li
         html += basket.map(item => {
             return `
-                    <div class="div-ordered-item">
+                    <li class="${styles.rowSpaceBetween}">
                         <p>${item.name}</p><p>£${item.price.toFixed(2)}</p>
-                    </div>
+                    </li>
             `
         }).join('')
 
         html += `
                     <li>
-                        <div class="div-divider div-divider-accent"></div>
-                        <div class="div-space-between">
+                        <div class="${styles.divider}"></div>
+                        <div class="${styles.total}">
                             <p>Total: ${cafe.renderDiscountStatus()}</p>
                             <p>£${orderTotal}</p>
                         </div>
                     </li>
                 </ul>
                 ${stars.get(numStars)}
-                <footer>
-                    <button class="btn-modal-main" data-type="hide">Back to menu</button>
+                <footer class=${styles.footer}>
+                    <button class="${styles.btnMain}" data-type="hide">Back to menu</button>
                 </footer>
             </div>
         `
@@ -90,7 +92,7 @@ const ModalOrderConfirmation = () => {
 
     // Modal scaffold
     const node = document.createElement('dialog')
-    node.classList.add('modal')
+    node.className += styles.modal
     node.id = 'modal-order-confirmation'
 
     return {

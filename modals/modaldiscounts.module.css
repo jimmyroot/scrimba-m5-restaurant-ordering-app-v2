@@ -1,0 +1,18 @@
+.discountsList{
+    composes: flex-column large-gap ul-unstyled from '../css/layout.css';
+    padding: 0;
+    text-align: center;
+    font-size: 36px;
+    width: 100%;
+    margin-bottom: auto;
+}
+
+.discount {
+    display: inline-block;
+    padding: 20px;
+    margin: 15px;
+    border-radius: var(--int-br);
+    font-weight: 700;
+    background-color: var(--accent-darkest);
+    color: var(--accent-vivid);
+}

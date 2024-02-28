@@ -1,0 +1,16 @@
+.darker {
+    color: var(--accent-darkest);
+    line-height: 1.4;
+}
+
+.ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    li:last-of-type {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+    }
+}

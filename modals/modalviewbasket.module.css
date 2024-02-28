@@ -1,0 +1,49 @@
+.list {
+    composes: flex-column ul-unstyled from '../css/layout.css';
+
+    .item {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 0;
+        gap: 20px;
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .img {
+            width: 100px;
+            aspect-ratio: 1/1;  
+            align-self: center;
+        }
+
+        .btnRemove {
+            border-radius: 50px;
+            align-self: center;
+            line-height: 0;
+            background-color: var(--accent-darkest);
+            color: var(--accent-lightest);
+            padding: 15px 14px 13px 14px;
+        }
+    }
+
+    .item:first-of-type {
+        padding-top: 0;
+    }
+}
+
+    .emphasis {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .aside {
+        font-size: 18px;
+        opacity: 0.75;
+    }
+
+

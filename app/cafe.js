@@ -1,6 +1,7 @@
 import { v4 as newUUID } from 'https://jspm.dev/uuid'
 import menuArray from './data'
 import { btnViewBasket } from '../components/btnviewbasket'
+import { discount, warning } from '../modals/modal.module.css'
 
 const Cafe = () => {
 
@@ -104,21 +105,19 @@ const Cafe = () => {
     // Apply discount if code is valid
     const handleApplyDiscount = () => {
         const inputDiscount = document.getElementById('ipt-discount')
-        const code = inputDiscount.value
+        const currCode = inputDiscount.value
         const discountCodes = cafe.getDiscountCodes()
 
         // Check if the discount code exists 
-        if (Object.keys(discountCodes).includes(code)) {
+        if (Object.keys(discountCodes).includes(currCode)) {
             // If so set the discountMultiplier
-            setDiscountMultiplier(discountCodes[code])
+            setDiscountMultiplier(discountCodes[currCode])
             // Remove the warning class if it's there
-            if (inputDiscount.classList.contains('warning')) inputDiscount.classList.remove('warning')
-            // renderCheckout(basket)
+            if (inputDiscount.classList.contains(warning)) inputDiscount.classList.remove(warning)
         } else {
             // disable discount, show warning; the discount code was invalid
             setDiscountMultiplier(0)
-            inputDiscount.classList.add('warning')
-            // renderCheckout(basket)
+            inputDiscount.classList.add(warning)
         }
         inputDiscount.value = ''
     }
@@ -128,7 +127,7 @@ const Cafe = () => {
         if (discountMultiplier > 0) {
             const percentDiscount = getDiscountPercentage(discountMultiplier)
             html = `
-                <span class="spn-discount">
+                <span class="${discount}">
                     ${percentDiscount}% discount applied 
                 </span>&nbsp;
             `

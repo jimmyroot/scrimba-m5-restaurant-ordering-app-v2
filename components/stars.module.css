@@ -1,0 +1,40 @@
+.stars {
+    border: 1px solid var(--accent-light);
+    border-radius: var(--int-br);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 25px;
+}
+
+.subTitle {
+    color: var(--accent-darkest);
+    font-size: 28px;
+    font-weight: 300;
+    width: 100%;
+    text-align: center;
+}
+
+.ul {
+    composes: flex-row large-gap ul-unstyled from '../css/layout.css';
+    background: var(--accent-darkest);
+    border-radius: var(--int-br);
+    align-self: center;
+    font-size: 38px;
+    padding: 25px;
+}
+
+.hollowStar {
+    color: var(--star);
+    opacity: 0.4;
+}
+
+.hollowStar:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.fullStar {
+    composes: hollowStar;
+    opacity: 1;
+}
