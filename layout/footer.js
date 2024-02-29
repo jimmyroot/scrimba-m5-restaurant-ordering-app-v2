@@ -30,29 +30,29 @@ const Footer = () => {
 
     const render = () => {
         const html = `
-            <ul class="${styles.nav}" id="ul-footer-nav">
-                <li class="li-footer-nav">
-                    <button class="btn-footer-nav">
-                        <img class="${styles['avatar']}" src="/assets/jimmy.png" alt="User avatar">
-                        <span>Account</span>
+            <ul class="${styles.navList}" id="ul-footer-nav">
+                <li class="${styles.navItem}">
+                    <button class="${styles.button}">
+                        <img class="${styles.avatar}" src="/assets/jimmy.png" alt="User avatar">
+                        <span class="${styles.navText}">Account</span>
                     </button>
                 </li>
-                <li class="li-footer-nav">
-                    <button class="btn-footer-nav" data-type="orders">
+                <li class="${styles.navItem}">
+                    <button class="${styles.button}" data-type="orders">
                         <i class='bx bx-receipt bx-lg'></i>
-                        <span>My Orders</span>
+                        <span class="${styles.navText}">My Orders</span>
                     </button>
                 </li>
-                <li class="li-footer-nav">
-                    <button class="btn-footer-nav" data-type="discounts">
+                <li class="${styles.navItem}">
+                    <button class="${styles.button}" data-type="discounts">
                         <i class='bx bx-gift bx-lg'></i>
-                        <span>Discounts</span>
+                        <span class="${styles.navText}">Discounts</span>
                     </button>
                 </li>
-                <li class="li-footer-nav">
-                    <button class="btn-footer-nav">
+                <li class="${styles.navItem}">
+                    <button class="${styles.button}">
                         <i class='bx bx-cog bx-lg'></i>
-                        <span>Settings</span>
+                        <span class="${styles.navText}">Settings</span>
                     </button>
                 </li>
             </ul>
@@ -70,7 +70,6 @@ const Footer = () => {
         return node
     }
 
-    // This function is private to the module...does it work? 
     const handleSelectNav = target => {
         const styleSelected = styles['selected']
         const targetAlreadySelected = target ? target.classList.contains(styleSelected) : false

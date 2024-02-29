@@ -13,3 +13,19 @@
     composes: font-color-lightest from "../css/styles.css";
     font-size: 20px;
 }
+
+.link {
+    color: var(--lightest);
+}
+
+.link:hover {
+    color: var(--light)
+}
+
+.title {
+    font-family: 'Crete Round', serif;
+    color: var(--lightest);
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 0.7;
+}

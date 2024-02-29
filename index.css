@@ -1,9 +1,9 @@
 *, *::before, *::after {
     box-sizing: inherit;
-    /* border: 1px solid red; */
 }
 
 :root {
+    /* Colour theme */
     --white: #FFFFFF;
     --warning: #ff3700;
     --star: #FFEC51;
@@ -23,6 +23,7 @@
     --int-br: 10px;
     --ext-br: 15px;
     --crcl-br: 100px;
+
     /* Main container shadow styles, a bit overkill 
     but I think they look nice :-) */
     --shadow-color: 0deg 0% 60%;
@@ -113,24 +114,6 @@ h1, h2, h3, h4, p, ul, li, a {
     padding: 0;
 }
 
-a {
-    color: var(--lightest);
-}
-
-a:hover {
-    color: var(--light)
-}
-
-
-h1 {
-    font-family: 'Crete Round', serif;
-    color: var(--lightest);
-    font-size: 64px;
-    font-weight: 400;
-    line-height: 0.7;
-}
-
-/* Page element styles */
 .div-app-outer {
     background-color: var(--darkest);
     background-image: url('assets/beans.png');

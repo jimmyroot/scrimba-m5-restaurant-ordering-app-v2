@@ -33,8 +33,5 @@ modalOrderConfirmation.addEventListeners()
 modalMyOrders.addEventListeners()
 modalDiscounts.addEventListeners()
 
-// TODO 1: Add a 'Clear order' button on the main screen
-// TODO 2: Add functionality to count how many of each item has been ordered and display it
-//         in the relevant places
 // TODO 4: Get rid of focus highlight on footer nav
 // TODO 5: Bugfix: modal close button sizing

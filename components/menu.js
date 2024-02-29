@@ -12,26 +12,26 @@ const Menu = () => {
     
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            handleClick(e)
+            handleClick(e.target, e.target.dataset.type)
         })
     }
 
-    const handleClick = (e) => {
+    const handleClick = (target, type) => {
         const execute = {
             add: () => {
-                cafe.addToBasket(e.target.dataset.id)
+                const idToAdd = +target.dataset.id
+                cafe.addToBasket(idToAdd)
             },
             selectOrderType: () => {
-                toGo = e.target.dataset.toGo === 'true' ? true : false
+                toGo = target.dataset.toGo === 'true' ? true : false
                 refresh()
             },
             selectFilterType: () => {
-                activeFilter = e.target.dataset.filter
+                activeFilter = target.dataset.filter
                 refresh()
             }
         }
 
-        const type = e.target.dataset.type
         if (type) execute[type]()
     }
 

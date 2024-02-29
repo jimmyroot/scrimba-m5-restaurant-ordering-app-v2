@@ -62,7 +62,10 @@ const ModalMyOrders = () => {
                             <p>${order.date}</p>
                             <p>£${order.total}</p>
                     </div>
-                    <p>${order.items.map(item => item).join(', ')}</p>
+                    <p>${order.items.map(item => {
+                        const [ name, count ] = item
+                        return `${count}x ${name}`
+                    }).join(', ')}</p>
                     <p>You thought this order was: ${starRating.map(star => star).join('')}</p>
                 </li>
                 ${isLastIter ? '' : `<div class="${styles.divider}"></div>`}

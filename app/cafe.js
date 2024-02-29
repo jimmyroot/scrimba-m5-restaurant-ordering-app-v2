@@ -47,30 +47,56 @@ const Cafe = () => {
         return menuArray
     }
 
-    const addToBasket = ( id ) => {
-        const itemToAdd = menuArray.find(item => item.id === +id)
+    const addToBasket = ( idToAdd ) => {
+        const itemToAdd = menuArray.find(item => item.id === idToAdd)
         // Deep copy the item
         let copyOfItemToAdd = structuredClone(itemToAdd)
-        copyOfItemToAdd.instanceId = newUUID()
-        basket.push(copyOfItemToAdd)
+        // copyOfItemToAdd.instanceId = newUUID()
+
+        // Has this item already been added?
+        const itemInBasket = basket.find(item => item.id === copyOfItemToAdd.id)
+        
+        if (itemInBasket) {
+            itemInBasket.count++
+        } else {
+            copyOfItemToAdd.count = 1
+            basket.push(copyOfItemToAdd)
+        }
+
         btnViewBasket.refresh(basket, getOrderTotal())
     }
 
-    const removeFromBasket = ( instanceIdToRemove ) => {
-        // Use reduce to return a new array that doesn't include the item
-        // we're removing
-        basket = basket.reduce((arr, item) => {
-            if (item.instanceId !== instanceIdToRemove) arr.push(item)
-            return arr
-        }, [])
+    const removeFromBasket = ( idToRemove ) => {
+       
+        const itemToRemove = basket.find(item => item.id === idToRemove)
+        itemToRemove.count--
+
+        // Remove the item from the basket if the count is less than 1 (i.e. nothing)
+        if (itemToRemove.count < 1) {
+            basket = basket.reduce((arr, item) => {
+                if (item.id !== idToRemove) arr.push(item)
+                return arr
+            }, [])
+        }
+
         btnViewBasket.refresh(basket, getOrderTotal())
+    }
+
+    const clearBasket = () => {
+        basket = []
+        btnViewBasket.refresh()
     }
 
     const archiveOrder = () => {
         // Build an object containing details about the currentorder and push it to the 
         // orderHistory array
         const orderObj = {
-            items: basket.map(item => item.name),
+            items: basket.map(item => {
+                return [
+                    item.name,
+                    item.count
+                ]
+            }),
             total: getOrderTotal(basket),
             starRating: currentStarRating,
             date: new Date().toLocaleDateString('en-GB', {
@@ -84,7 +110,7 @@ const Cafe = () => {
     const getOrderTotal = () => {
         if (basket.length > 0) {
             let total = basket.map(
-                item => item.price
+                item => (item.price * item.count)
             ).reduce(
                 (total, price) => total + price
             )
@@ -151,6 +177,7 @@ const Cafe = () => {
         setCurrentStarRating,
         addToBasket,
         removeFromBasket,
+        clearBasket,
         archiveOrder,
         renderDiscountStatus,
         handleReset,

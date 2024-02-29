@@ -49,10 +49,10 @@ const ModalCheckout = () => {
                 <header class="${styles.header}">
                     <h3 class="${styles.title}">Checkout</h3>
                     <div class="${styles.divider}"></div>
-                    <button class="${styles.btnBack}" data-type="back">
+                    <button class="${styles.btnTopLeft}" data-type="back">
                         <i class='bx bx-chevron-left bx-md' ></i>
                     </button>
-                    <button class="${styles.btnClose}" data-type="hide">
+                    <button class="${styles.btnTopRight}" data-type="hide">
                         <i class='bx bx-x bx-md'></i>
                     </button>
                 </header>

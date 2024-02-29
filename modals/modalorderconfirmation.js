@@ -42,13 +42,13 @@ const ModalOrderConfirmation = () => {
                 <p class="${orderStyles.darker}">Your order is on it's way! Thank you for visiting. We hope to see you again.</p>
                 <h4 class="${styles.subTitle}">Your order</h4>
                 <ul class="${orderStyles.ul} ${styles.overflow}" id="u-modal-order-complete-details">
-        `   
+        `
 
         // This needs to be changed to li
         html += basket.map(item => {
             return `
                     <li class="${styles.rowSpaceBetween}">
-                        <p>${item.name}</p><p>£${item.price.toFixed(2)}</p>
+                        <p>${item.count}x ${item.name}</p><p>£${item.price.toFixed(2)}</p>
                     </li>
             `
         }).join('')

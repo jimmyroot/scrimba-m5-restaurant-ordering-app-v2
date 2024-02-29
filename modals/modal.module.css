@@ -4,18 +4,20 @@
     font-size: 22px;
     border: none;
     border-radius: var(--int-br);
-    min-width: 510px;
-    width: 520px;
-    min-height: 1060px;
-    height: 1060px;
+    min-width: 550px;
+    width: 550px;
+    min-height: 997px;
+    height: 997px;
     overflow-y: hidden;
     box-shadow: var(--shadow-modal);
     position: absolute;
-    top: 94px;
+    top: 75px;
     left: 0;
     margin: 0 auto;
     padding: 25px;
 }
+
+/* Main modal layout styles */
 
 .inner {
     justify-content: start;
@@ -29,28 +31,57 @@
 }
 
 .footer {
+    composes: flex-column large-gap from '../css/layout.css';
     width: 100%;
     margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+}
+
+/* Generic modal button styles */
+.btn {
+    background-color: var(--accent-darkest);
+    color: var(--accent-lightest);
+    border-radius: var(--crcl-br);
+    padding: 7px;
+    line-height: 0;
+}
+
+.btnTopRight {
+    composes: btn;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+}
+
+.btnTopLeft {
+    composes: btn;
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+.btnMain {
+    background-color: var(--darkest);
+    font-family: 'Crete Round', serif;
+    font-size: 36px;
+    color: var(--lightest);
+    border-radius: var(--int-br);
+    padding: 30px 0;
 }
 
 .title {
-    font-family: 'Crete Round', serif;
-    font-size: 48px;
+    composes: largeHeading from '../css/type.css';
     width: 100%;
     text-align: center;
     margin: -3px 0 0 0;
 }
 
-.subTitle {
-    color: var(--accent-darkest);
-    font-size: 28px;
+.subtitle {
+    composes: smallHeading from '../css/type.css';
     font-weight: 300;
     width: 100%;
     text-align: center;
 }
+
 
 .divider {
     composes: divider from '../css/layout.css';
@@ -73,36 +104,6 @@
     background-color: var(--accent-darkest);
     opacity: 0.6;
     border-radius: 5px;
-}
-
-.btn {
-    background-color: var(--accent-darkest);
-    color: var(--accent-lightest);
-    border-radius: var(--crcl-br);
-    padding: 7px;
-}
-
-.btnClose {
-    composes: btn;
-    position: absolute;
-    top: 25px;
-    right: 25px;
-}
-
-.btnBack {
-    composes: btn;
-    position: absolute;
-    top: 25px;
-    left: 25px;
-}
-
-.btnMain {
-    background-color: var(--darkest);
-    font-family: 'Crete Round', serif;
-    font-size: 36px;
-    color: var(--lightest);
-    border-radius: var(--int-br);
-    padding: 30px 0;
 }
 
 .rowSpaceBetween {

@@ -1,4 +1,4 @@
-.list {
+.itemList {
     composes: flex-column ul-unstyled from '../css/layout.css';
 
     .item {
@@ -21,13 +21,35 @@
             align-self: center;
         }
 
-        .btnRemove {
+        .btnSmall {
             border-radius: 50px;
             align-self: center;
+            font-size: 18px;
+            font-weight: bold;
             line-height: 0;
             background-color: var(--accent-darkest);
             color: var(--accent-lightest);
-            padding: 15px 14px 13px 14px;
+            padding: 1px 0 0 0;
+        }
+
+        .btnSmall:hover {
+            border-radius: 50px;
+            align-self: center;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 0;
+            transform: scale(1.15);
+        }
+
+        .editItem {
+            min-width: 15%;
+            font-size: 36px;
+            /* font-weight: 700; */
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 13px;
         }
     }
 
@@ -36,14 +58,12 @@
     }
 }
 
-    .emphasis {
-        font-size: 24px;
-        font-weight: 700;
-    }
+.emphasis {
+    font-size: 24px;
+    font-weight: 700;
+}
 
-    .aside {
-        font-size: 18px;
-        opacity: 0.75;
-    }
-
-
+.aside {
+    font-size: 18px;
+    opacity: 0.75;
+}

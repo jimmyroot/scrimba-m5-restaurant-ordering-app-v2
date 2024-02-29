@@ -1,9 +1,9 @@
-.nav {
+.navList {
     composes: flex-row ul-unstyled space-between from '../css/layout.css';
     padding: 0;
 
-    li {
-        button {
+    .navItem {
+        .button {
             background-color: transparent;
             align-items: center;
             border-bottom: 5px solid transparent;
@@ -12,13 +12,13 @@
             justify-content: space-between;
         }
 
-        button:hover,
-        button.selected {
+        .button:hover,
+        .button.selected {
             color: var(--accent-darkest);
             border-bottom: 5px solid var(--accent-darkest);
         }
 
-        span {
+        .navText {
             font-size: 14px;
             font-weight: 700;
             padding: 10px;
