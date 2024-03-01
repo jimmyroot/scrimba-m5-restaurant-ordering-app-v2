@@ -1,10 +1,12 @@
+import cafeLatte from '../assets/cafe-latte.png'
+
 const menuArray = [
     {
         name: "Café Latte",
         ingredients: ["Milk", "Espresso"],
         id: 0,
         price: 4.25,
-        imageURL: "/assets/cafe-latte.png",
+        imageURL: cafeLatte,
         category: "coffee"
     },
     {
