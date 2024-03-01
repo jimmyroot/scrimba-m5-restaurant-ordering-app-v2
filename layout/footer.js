@@ -7,6 +7,7 @@
 import { modalDiscounts } from "../modals/modaldiscounts"
 import { modalMyOrders } from "../modals/modalmyorders"
 import styles from './footer.module.css'
+import urlAvatar from '../assets/jimmy.png'
 
 const Footer = () => {
 
@@ -40,7 +41,7 @@ const Footer = () => {
             <ul class="${styles.navList}" id="ul-footer-nav">
                 <li class="${styles.navItem}">
                     <button class="${styles.btn}">
-                        <img class="${styles.avatar}" src="/assets/jimmy.png" alt="User avatar">
+                        <img class="${styles.avatar}" src="${urlAvatar}" alt="User avatar">
                         <span class="${styles.navText}">Account</span>
                     </button>
                 </li>

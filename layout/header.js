@@ -4,6 +4,7 @@
 // ------------------------//
 
 import styles from './header.module.css'
+import urlLogo from '../assets/logo.jpg'
 
 const Header = () => {
 

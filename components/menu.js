@@ -3,7 +3,7 @@
 // All functionality for the menu can be found here...  //
 // -----------------------------------------------------//
 
-import { cafe } from "../app/cafe"
+import { cafe } from '../app/cafe'
 import styles from './menu.module.css'
 
 const Menu = () => {
@@ -15,7 +15,6 @@ const Menu = () => {
     let toGo = true
     let activeFilter = 'coffee'
     
-
     // Use this function to add the event listeners. Use 'get()' first to append
     // this module's node to the DOM
     const addEventListeners = () => {
