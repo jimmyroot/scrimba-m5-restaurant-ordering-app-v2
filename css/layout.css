@@ -1,0 +1,64 @@
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.alignCenter {
+    align-items: center;
+}
+
+.allCenter {
+    align-items: center;
+    justify-content: center;
+}
+
+.spaceBetween {
+    justify-content: space-between;
+}
+
+.justifyCenter {
+    justify-content: center;
+}
+
+.tight {
+    gap: 15px;
+}
+
+.cozy {
+    gap: 20px;
+}
+
+.generous {
+    gap: 25px;
+}
+
+.smallMarginTop {
+    margin-top: 7px;
+}
+
+.lightest {
+    color: var(--lightest);
+}
+
+.ulUnstyled {
+    list-style-type: none;
+}
+
+.divider {
+    border-bottom: 1px solid;
+    width: 94%;
+    margin: 0 auto;
+}
+
+ .dividerPrimary {
+    border-color: var(--light);
+}
+
+ .dividerAccent {
+    border-color: var(--accent-light);
+}

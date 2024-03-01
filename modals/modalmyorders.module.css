@@ -1,0 +1,17 @@
+.orderList {
+    composes: flexColumn generous ulUnstyled from '../css/layout.css';
+    padding: 0;
+    width: 100%;
+    margin-bottom: auto;
+
+    .item {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        font-size: 18px;
+    }
+
+    .item p:last-of-type {
+        font-size: 18px;
+    }
+}

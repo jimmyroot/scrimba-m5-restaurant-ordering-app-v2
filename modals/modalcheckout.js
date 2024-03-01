@@ -1,17 +1,30 @@
+// modalcheckout.js
+// ----------------------------------------------//
+// The checkout modal and associated functions   //
+// ----------------------------------------------//
+
 import { cafe } from "../app/cafe"
 import { modalViewBasket } from "./modalviewbasket"
-import { btnViewBasket } from "../components/btnviewbasket"
 import { modalOrderConfirmation } from "./modalorderconfirmation"
+import styles from './modal.module.css'
+import checkoutStyles from './modalcheckout.module.css'
 
 const ModalCheckout = () => {
 
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
             handleClick(e.target.dataset.type)
-        }
-    )}
+        })
 
-    const handleClick = ( type ) => {
+        node.addEventListener('input', e => {        
+            const input = e.target
+            Boolean(input.value) ? input.classList.remove(styles.warning) : input.classList.add(styles.warning)
+        })
+    }
+
+    const handleClick = type => {
         const execute = {
             pay: () => {
                 const form = document.querySelectorAll('#form-card-detail')[0]
@@ -25,40 +38,59 @@ const ModalCheckout = () => {
                 hide()
             },
             discount: () => {
+                // handle the call to cafe.handleApplyDiscount and set warning class if empty or invalid
+                const inputDiscount = document.getElementById('ipt-discount')
+
+                if (inputDiscount.value) {
+                    const discountCode = inputDiscount.value.toUpperCase()
+                    const codeIsValid = cafe.handleApplyDiscount(discountCode)
+                    
+                    if (codeIsValid) {
+                        if (inputDiscount.classList.contains(styles.warning)) inputDiscount.classList.remove(styles.warning)
+                    } else {
+                        inputDiscount.classList.add(styles.warning)
+                    }
+                    
+                } else {
+                    inputDiscount.classList.add(styles.warning)
+                }
+
+                inputDiscount.value = ''
+                refreshTotal()
+            },
+            removeDiscount: () => {
                 cafe.handleApplyDiscount()
                 refreshTotal()
-                btnViewBasket.refresh()
             }
         }
 
         if (type) execute[type]()
     }
 
-    const renderContent = () => {
-        const discountMultiplier = cafe.getDiscountMultiplier()
+    const render = () => {
         const orderTotal = cafe.getOrderTotal()
 
         const modalHtml = `
-            <div class="modal-inner">
-                <header>
-                    <h3 class="modal-title">Checkout</h3>
-                    <div class="div-divider div-divider-accent"></div>
-                    <button class="btn-modal-back" data-type="back">
+            <div class="${styles.inner}">
+                <header class="${styles.header}">
+                    <h3 class="${styles.title}">Checkout</h3>
+                    <div class="${styles.divider}"></div>
+                    <button class="${styles.btnTopLeft}" data-type="back">
                         <i class='bx bx-chevron-left bx-md' ></i>
                     </button>
-                    <button class="btn-modal-close" data-type="hide">
+                    <button class="${styles.btnTopRight}" data-type="hide">
                         <i class='bx bx-x bx-md'></i>
                     </button>
                 </header>
-                <form class="form-card-detail" id="form-card-detail">
-                    <h4 class="h4-card-det">Card details</h4>
+                <form class="${checkoutStyles.cardEntryForm}" id="form-card-detail">
+                    <h4 class="${styles.subTitle}">Card details</h4>
                     <label for="card-name">Name</label>
-                    <input class="ipt-card" id="card-name" placeholder="Name">                         
+                    <input class="${checkoutStyles.fullWidthInput}" id="card-name" placeholder="Name">                         
                     <label for="card-number">Card Number</label>
-                    <input class="ipt-card" id="card-number" placeholder="Card Number">
-                    <div class="div-card-detail-2-column">
+                    <input class="${checkoutStyles.fullWidthInput}" id="card-number" placeholder="Card Number">
+                    <div class="${checkoutStyles.flexRowContainer}">
                         <label for="card-month-expire">Expiry Month</label>
-                        <select class="sel-card" name="Month" id="card-month-expire">
+                        <select class="${checkoutStyles.halfWidthInput}" name="Month" id="card-month-expire">
                             <option value="">Month</option>
                             <option value="january">January</option>
                             <option value="february">February</option>
@@ -74,7 +106,7 @@ const ModalCheckout = () => {
                             <option value="december">December</option>
                         </select>
                         <label for="card-year-expire">Expiry Year</label>
-                        <select class="sel-card" name="Year" id="card-year-expire">
+                        <select class="${checkoutStyles.halfWidthInput} ${checkoutStyles.selection}" name="Year" id="card-year-expire">
                             <option value="">Year</option>
                             <option value="2024">2024</option>
                             <option value="2025">2025</option>
@@ -85,27 +117,26 @@ const ModalCheckout = () => {
                             <option value="2030">2030</option>
                         </select>
                     </div>
-                    <div class="div-card-detail-2-column">
+                    <div class="${checkoutStyles.flexRowContainer}">
                         <label for="card-ccv">CCV</label>
-                        <input class="ipt-card ipt-card-ccv" id="card-ccv" placeholder="CCV">
-                        <p class="p-ccv">3 or 4 digits usually found on the back of your card</p>
+                        <input class="${checkoutStyles.fullWidthInput} ${checkoutStyles.ccv}" id="card-ccv" placeholder="CCV">
+                        <p class="${checkoutStyles.ccvDescription}">3 or 4 digits usually found on the back of your card</p>
                     </div>
                 </form>
-                <footer>
-                    <div class="div-space-between" id="div-checkout-total">
+                <footer class="${styles.footer}">
+                    <div class="${styles.total}" id="div-checkout-total">
                         <p>Total
-                            ${cafe.renderDiscountStatus()}
                         :</p>
                         <p id="p-basket-total">£${orderTotal}</p>
                     </div>
-                    <div class="div-discount">
+                    <div class="${checkoutStyles.discount}">
                         <label for="ipt-discount">Discount code</label>
-                        <input type="text" class="ipt-discount" id="ipt-discount" placeholder="Discount code?">
-                        <button class="btn-modal-discount" data-type="discount">
+                        <input type="text" class="${checkoutStyles.fullWidthInput}" id="ipt-discount" placeholder="Discount code?">
+                        <button class="${checkoutStyles.btnDiscount}" data-type="discount">
                             <i class='bx bx-chevron-right bx-md' ></i>
                         </button>    
                     </div>
-                    <button class="btn-modal-main" id="btn-pay" data-type="pay">Pay</button>
+                    <button class="${styles.btnMain}" id="btn-pay" data-type="pay">Pay</button>
                 </footer>
             </div>
         `
@@ -113,33 +144,35 @@ const ModalCheckout = () => {
         return modalHtml    
     }
 
-    const refreshContent = () => {
-        // document.querySelector('#modal-checkout')
-        node.innerHTML = renderContent()
+    const refresh = () => {
+        node.innerHTML = render()
+        refreshTotal()
     }
 
+    // Function to update just the total, if we render the whole modal again
+    // we lose the input in the credit card input fields
     const refreshTotal = () => {
-        const discountMultiplier = cafe.getDiscountMultiplier()
         const orderTotal = cafe.getOrderTotal()
 
         document.querySelector('#div-checkout-total').innerHTML = `
-            <p>Total ${cafe.renderDiscountStatus()}:</p>
+            <p>Total ${cafe.renderDiscountStatus(true)}:</p>
             <p id="p-basket-total">£${orderTotal}</p>
         `
     }
 
-    const handlePayment = (form) => {
+    const handlePayment = form => {
         form.reset()
         hide()
         modalOrderConfirmation.show()
     }
 
-    const isFormComplete = (form) => {
+    const isFormComplete = form => {
+
         // Create an array of form elements filtered by value or not 
         const emptyInputs = [...form.elements].filter(element => !Boolean(element.value))
         // If there are empty elements, add warning class to them and return false
         if (emptyInputs.length > 0) {
-            emptyInputs.forEach(input => input.classList.add('warning'))
+            emptyInputs.forEach(input => input.classList.add(styles.warning))
             return false
         }
         // If there were no empty inputs return true
@@ -147,7 +180,7 @@ const ModalCheckout = () => {
     }
 
     const show = () => {
-        refreshContent()
+        refresh()
         node.showModal()
     }
 
@@ -159,11 +192,12 @@ const ModalCheckout = () => {
         return node
     }
 
-    // Call this when instantiating the element, probably in index.js
+    // Init base node
     const node = document.createElement('dialog')
-    node.classList.add('modal')
+    node.className += styles.modal
     node.id = 'modal-checkout'
 
+    // Expose functions
     return {
         get,
         show,

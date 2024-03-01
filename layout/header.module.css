@@ -1,0 +1,31 @@
+.tagline {
+    color: var(--lightest);
+    margin-top: 7px;
+    font-size: 24px;
+}
+
+.header {
+    composes: flexColumn generous alignCenter from "../css/layout.css";
+
+}
+
+.asides {
+    color: var(--lightest);
+    font-size: 20px;
+}
+
+.link {
+    color: var(--lightest);
+}
+
+.link:hover {
+    color: var(--light);
+}
+
+.title {
+    font-family: 'Crete Round', serif;
+    color: var(--lightest);
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 0.7;
+}

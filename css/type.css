@@ -1,0 +1,23 @@
+.fontSizeMedium {
+    font-size: 24px;
+}
+
+.emphasis {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.aside {
+    font-size: 18px;
+    opacity: 0.75;
+}
+
+.largeHeading {
+    font-family: 'Crete Round', serif;
+    font-size: 48px;
+}
+
+.smallHeading {
+    color: var(--accent-darkest);
+    font-size: 28px;
+}

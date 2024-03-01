@@ -1,0 +1,36 @@
+.button {
+    composes: flexRow from '../css/layout.css';
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--accent-darkest);
+    color: var(--accent-lightest);
+    font-family: 'Crete Round', serif;
+    font-size: 36px;
+    border-radius: var(--int-br);
+    width: 100%;
+    position: relative;
+    padding: 25px 20px;
+
+    .count {
+        font-family: 'Merriweather Sans', sans-serif;
+        background-color: var(--accent-vivid);
+        color: var(--accent-darkest);
+        font-size: 22px;
+        font-weight: 700;
+        width: 36px;
+        height: 36px;
+        padding-top: 6px;
+        border-radius: 50px;
+        position: absolute;
+        top: 20px;
+        left: 45px;
+    }
+
+    .total {
+        font-family: 'Merriweather Sans', sans-serif;
+        display: block;
+        text-align: right;
+        width: 15%;
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,34 @@
+.navList {
+    composes: flexRow ulUnstyled spaceBetween from '../css/layout.css';
+    padding: 0;
+
+    .navItem {
+        .btn {
+            background-color: transparent;
+            align-items: center;
+            border-bottom: 5px solid transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .btn:hover,
+        .btn.selected {
+            color: var(--accent-darkest);
+            border-bottom: 5px solid var(--accent-darkest);
+        }
+
+        .navText {
+            font-size: 14px;
+            font-weight: 700;
+            padding: 10px;
+        }
+    }
+}
+
+.avatar {
+    width: 48px;
+    aspect-ratio: 1/1;
+    border-radius: var(--crcl-br);
+    border: 5px solid;
+}

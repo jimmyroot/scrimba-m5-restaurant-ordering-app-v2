@@ -1,16 +1,24 @@
-import { cafe } from "../app/cafe"
-import { btnViewBasket } from "../components/btnviewbasket"
-import { modalCheckout } from "./modalcheckout"
+// modalviewbasket.js
+// ----------------------------------------//
+// Modal to show and edit basket contents  //
+// ----------------------------------------//
+
+import { cafe } from '../app/cafe'
+import { modalCheckout } from './modalcheckout'
+import styles from './modal.module.css'
+import basketStyles from './modalviewbasket.module.css' // Styles unique to this modal
 
 const ModalViewBasket = () => {
 
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
             handleClick(e.target, e.target.dataset.type)
         })
     }
 
-    const handleClick = ( target, type ) => {
+    const handleClick = (target, type) => {
         const execute = {
             checkout: () => {
                 hide()
@@ -19,65 +27,85 @@ const ModalViewBasket = () => {
             hide: () => {
                 hide()
             },
-            remove: () => {
-                cafe.removeFromBasket(target.dataset.instanceId)
+            clear: () => {
+                cafe.handleReset()
                 refresh()
-                btnViewBasket.refresh()
+            },
+            add: () => {
+                const idToAdd = +target.dataset.id
+                cafe.addToBasket(idToAdd)
+                refresh()
+            },
+            remove: () => {
+                const idToRemove = +target.dataset.id
+                cafe.removeFromBasket(idToRemove)
+                refresh()
             }
         }
-
+        
         if (type) execute[type]()
     }
 
     const render = () => {
 
         const basket = cafe.getBasket()
-        const discountMultiplier = cafe.getDiscountMultiplier()
         const orderTotal = cafe.getOrderTotal()
 
         let modalHtml = `
-            <div class="modal-inner">
-                <header>
-                    <h3 class="modal-title">Your basket</h3>
-                    <div class="div-divider div-divider-accent"></div>
-                    <button class="btn-modal-close" id="btn-close-view-basket" data-type="hide">
+            <div class="${styles.inner}">
+                <header class="${styles.header}">
+                    <h3 class="${styles.title}">Your basket</h3>
+                    <div class="${styles.divider}"></div>
+                    <button class="${styles.btnTopLeft}" id="btn-close-view-basket" data-type="clear"
+                        ${basket.length > 0 ? '' : 'disabled'}>
+                        <i class='bx bx-trash bx-md'></i>
+                    </button>
+                    <button class="${styles.btnTopRight}" id="btn-close-view-basket" data-type="hide">
                         <i class='bx bx-x bx-md'></i>
                     </button>
                 </header>
-                <ul class="ul-order overflow-thin-scrollbar" id="ul-basket-items">
+                <ul class="${styles.overflow} ${basketStyles.itemList}" id="ul-basket-items">
         `
             
         modalHtml += basket.map((item, index, arr) => {
-            const {name, ingredients, price, imageURL, instanceId} = item
+
+            const {name, ingredients, price, imageURL, id, count} = item
             const isLastIter = ((index + 1) === arr.length)
+
             return `
-                <li class="li-menu-item">
-                    <img class="img-item" src="${imageURL}">
-                    <div>
-                        <span class="spn-item-name">${name}</span>
-                        <span class="spn-item-dets">
+                <li class="${basketStyles.item}">
+                    <img class="${basketStyles.img}" src="${imageURL}">
+                    <div class="${basketStyles.details}">
+                        <span class="${basketStyles.emphasis}">${name}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </span>
+                        <span class="${basketStyles.aside}">
                             ${ingredients.map(ingredient => ingredient).join(', ')}
                         </span>
-                        <span class="spn-item-dets">£${price.toFixed(2)}</span>
+                        <span class="${basketStyles.emphasis}">£${(price * count).toFixed(2)}</span>
                     </div>
-                    <button class="btn-remove" data-instance-id="${instanceId}" data-type="remove">
-                        <i class='bx bx-minus bx-sm'></i>
-                    </button>
+                    <div class="${basketStyles.editItem}">
+                        <button class="${basketStyles.smallBtn}" data-id="${id}" data-type="remove">
+                            <i class='bx bx-minus'></i>
+                        </button>
+                        ${count}
+                        <button class="${basketStyles.smallBtn}" data-id="${id}" data-type="add">
+                            <i class='bx bx-plus'></i>
+                        </button>
+                    </div>
                 </li>
-                ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
+                ${isLastIter ? '' : `<div class="${styles.divider}"></div>`}
             `
         })
         .join('')
         .concat(`
             </ul>
-            <footer>
-                <div class="div-space-between" id="div-basket-total">
+            <footer class="${styles.footer}">
+                <div class="${styles.total}" id="div-basket-total">
                     <p>Total ${cafe.renderDiscountStatus()}:</p>
-                    <p id="p-basket-total">£${orderTotal}</p>
+                    <p>£${orderTotal}</p>
                 </div>
-                <button class="btn-modal-main" id="btn-checkout" data-type="checkout"
+                <button class="${styles.btnMain}" id="btn-checkout" data-type="checkout"
                     ${basket.length > 0 ? '' : 'disabled'}
-                >Checkout</button>
+                >Go to Checkout</button>
             </footer>
         </div>
         `)
@@ -102,10 +130,12 @@ const ModalViewBasket = () => {
         node.close()
     }
 
+    // Init base node
     const node = document.createElement('dialog')
-    node.classList.add('modal')
+    node.className += styles.modal
     node.id = 'modal-basket'
 
+    // Expose functions
     return {
         get,
         show,

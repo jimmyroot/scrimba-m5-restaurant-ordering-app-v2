@@ -1,8 +1,17 @@
+// modalmyorders.js
+// ----------------------------------------//
+// Modal to show the users order history   //
+// ----------------------------------------//
+
 import { cafe } from "../app/cafe"
 import { footer } from "../layout/footer"
+import styles from './modal.module.css'
+import myOrdersStyles from './modalmyorders.module.css'
 
 const ModalMyOrders = () => {
 
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
             handleClick(e.target.dataset.type)
@@ -14,7 +23,7 @@ const ModalMyOrders = () => {
         })
     }
 
-    const handleClick = ( type ) => {
+    const handleClick = type => {
         const execute = {
             hide: () => {
                 hide()
@@ -26,15 +35,14 @@ const ModalMyOrders = () => {
 
     const render = () => {
         const html = `
-            <div class="modal-inner">
-                <header>
-                    <h3 class="modal-title">Order history</h3>
-                    <div class="div-divider div-divider-accent"></div>
+            <div class="${styles.inner}">
+                <header class="${styles.header}">
+                    <h3 class="${styles.title}">Order history</h3>
+                    <div class="${styles.divider}"></div>
                 </header>
-                    ${renderOrderHistory()}
-                </ul>
-                <footer>
-                    <button class="btn-modal-main" data-type="hide">Close</button>
+                ${renderOrderHistory()}
+                <footer class="${styles.footer}">
+                    <button class="${styles.btnMain}" data-type="hide">Close</button>
                 </footer>
             </div>
         `
@@ -45,7 +53,7 @@ const ModalMyOrders = () => {
     const renderOrderHistory = () => {
         const orderHistory = cafe.getOrderHistory()
 
-        let html = `<ul class="ul-order-history" id="ul-order-history">`
+        let html = `<ul class="${myOrdersStyles.orderList}" id="ul-order-history">`
 
         html += orderHistory.map((order, index, arr) => {
             const isLastIter = ((index + 1) === arr.length)
@@ -55,15 +63,18 @@ const ModalMyOrders = () => {
             }
             
             return `
-                <li class="li-order-history">
-                    <div class="div-space-between">
+                <li class="${myOrdersStyles.item}">
+                    <div class="${styles.total}">
                             <p>${order.date}</p>
                             <p>£${order.total}</p>
                     </div>
-                    <p>${order.items.map(item => item).join(', ')}</p>
+                    <p>${order.items.map(item => {
+                        const [ name, count ] = item
+                        return `${count}x ${name}`
+                    }).join(', ')}</p>
                     <p>You thought this order was: ${starRating.map(star => star).join('')}</p>
                 </li>
-                ${isLastIter ? '' : '<div class="div-divider div-divider-accent"></div>'}
+                ${isLastIter ? '' : `<div class="${styles.divider}"></div>`}
             `
         })
         .join('')
@@ -91,11 +102,12 @@ const ModalMyOrders = () => {
         return node
     }
 
-    // Modal scaffold
+    // Init base node
     const node = document.createElement('dialog')
-    node.classList.add('modal')
+    node.className += styles.modal
     node.id = 'modal-my-orders'
 
+    // Expose functions
     return {
         get,
         show,

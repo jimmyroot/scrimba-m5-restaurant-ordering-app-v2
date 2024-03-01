@@ -1,4 +1,10 @@
+// menu.js
+// -----------------------------------------------------//
+// All functionality for the menu can be found here...  //
+// -----------------------------------------------------//
+
 import { cafe } from "../app/cafe"
+import styles from './menu.module.css'
 
 const Menu = () => {
 
@@ -9,32 +15,36 @@ const Menu = () => {
     let toGo = true
     let activeFilter = 'coffee'
     
+
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            handleClick(e)
+            handleClick(e.target, e.target.dataset.type)
         })
     }
 
-    const handleClick = (e) => {
+    const handleClick = (target, type) => {
         const execute = {
             add: () => {
-                cafe.addToBasket(e.target.dataset.id)
+                const idToAdd = +target.dataset.id
+                cafe.addToBasket(idToAdd)
             },
             selectOrderType: () => {
-                toGo = e.target.dataset.toGo === 'true' ? true : false
+                toGo = target.dataset.toGo === 'true' ? true : false
                 refresh()
             },
             selectFilterType: () => {
-                activeFilter = e.target.dataset.filter
+                activeFilter = target.dataset.filter
                 refresh()
             }
         }
 
-        const type = e.target.dataset.type
         if (type) execute[type]()
     }
 
-    // Module render functions
+    // Render functions
+
     const render = () => {
         let html = renderFilterBtns()
         html += renderMenu()
@@ -46,18 +56,18 @@ const Menu = () => {
         // Render the order type 'at table' or 'to go' buttons, these are really just eye 
         // candy, they don't do anything in this app
         let html = `
-            <section class="sec-menu-controls">
-                <div class="div-order-type" id="div-order-type">
-                    <button class="btn-order-type ${toGo ? 'selected' : ''}" data-type="selectOrderType" data-to-go="true">
+            <section class="${styles.menuOptions}">
+                <div class="${styles.orderTypeContainer}" id="div-order-type">
+                    <button class="${toGo ? styles.typeBtnSelected : styles.typeBtn}" data-type="selectOrderType" data-to-go="true">
                         <i class="bx bx-coffee-togo bx-md"></i>
                         Order to go
                     </button>
-                    <button class="btn-order-type ${toGo ? '' : 'selected'}" data-type="selectOrderType" data-to-go="false">
+                    <button class="${toGo ? styles.typeBtn : styles.typeBtnSelected}" data-type="selectOrderType" data-to-go="false">
                         <i class="bx bx-qr-scan bx-md" ></i>
                         Order to table
                     </button>
                 </div>
-                <ul class="ul-menu-filter" id="ul-menu-filter">
+                <ul class="${styles.filterList}" id="ul-menu-filter">
         `
 
         // Render the list of filter options 'coffee', 'breakfast', etc
@@ -65,19 +75,18 @@ const Menu = () => {
         // we can build the list of filter btns 
         const filterCategories = [...new Set(menuArray.map(item => item.category))]
 
-        // Render the buttons
+        // Render the buttons themselvecs
         html += filterCategories.map(category => {
-            // Convert first letter to uppercase for the cateogry text
             const btnTxt = category.charAt(0).toUpperCase() + category.slice(1)
-            const isSelected = category === activeFilter ? 'selected' : ''
             return `
-                <li class="li-menu-filter">
-                    <button class="btn-filter-category ${isSelected}" data-type="selectFilterType" data-filter="${category}">${btnTxt}</button>
-                </li>
-            `
-        })
-        .join('')
-        .concat('</ul></section>')
+                    <li class="${styles.filterItem}">
+                        <button class="${category === activeFilter ? styles.filterBtnSelected : styles.filterBtn}" data-type="selectFilterType" data-filter="${category}">${btnTxt}</button>
+                    </li>
+                `
+                }).join('').concat(`
+                </ul>
+            </section>
+        `)
 
         return html
     }
@@ -85,32 +94,32 @@ const Menu = () => {
     const renderMenu = () => {
         let html = `   
             <section>
-                <ul id="ul-menu-list">
+                <ul class="${styles.menuList}" id="ul-menu-list">
         `
 
         html += menuArray.filter(item => item.category === activeFilter).map((item, index, arr) => {
-            const {name, ingredients, price, imageURL, id} = item
-            // Create a boolean isLastIter to track if we are on the last iteration
+            const { name, ingredients, price, imageURL, id } = item
+
+            // Create a boolean, isLastIter, to track if we are on the last iteration (we'll use it below)
             const isLastIter = ((index + 1) === arr.length)
+            const divider = `<div class="${styles.divider}"></div>`
             return `
-                <li class="li-menu-item">
-                    <img class="img-item" src="${imageURL}">
-                    <div>
-                        <span class="spn-item-name">${name}</span>
-                        <span class="spn-item-dets">
+                <li class="${styles.menuItem}">
+                    <img class="${styles.image}" src="${imageURL}">
+                    <div class="${styles.itemInfo}">
+                        <span class="${styles.itemName}">${name}</span>
+                        <span class="${styles.itemDetail}">
                             ${ingredients.map(ingredient => ingredient).join(', ')}
                         </span>
-                        <span class="spn-item-dets">£${price.toFixed(2)}</span>
+                        <span class="${styles.itemDetail}">£${price.toFixed(2)}</span>
                     </div>
-                    <button class="btn-add" data-type="add" data-id="${id}">
+                    <button class="${styles.btn}" data-type="add" data-id="${id}">
                         <i class='bx bx-plus bx-md'></i>
                     </button>
                 </li>
-                ${isLastIter ? '' : '<div class="div-divider div-divider-primary"></div>'}
+                ${isLastIter ? '' : divider}
             `
-        })
-        .join('')
-        .concat(`
+        }).join('').concat(`
                 </ul>
             </section>
         `)
@@ -127,8 +136,8 @@ const Menu = () => {
         return node
     }
 
+    // Init the node that will be returned by this module
     const node = document.createElement('main')
-    node.classList.add('main')
 
     return {
         get,
