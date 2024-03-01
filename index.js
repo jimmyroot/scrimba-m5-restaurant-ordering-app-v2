@@ -32,6 +32,3 @@ modalCheckout.addEventListeners()
 modalOrderConfirmation.addEventListeners()
 modalMyOrders.addEventListeners()
 modalDiscounts.addEventListeners()
-
-// TODO 4: Get rid of focus highlight on footer nav
-// TODO 5: Bugfix: modal close button sizing
