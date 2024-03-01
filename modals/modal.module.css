@@ -6,8 +6,8 @@
     border-radius: var(--int-br);
     min-width: 550px;
     width: 550px;
-    min-height: 997px;
-    height: 997px;
+    min-height: 998px;
+    height: 998px;
     overflow-y: hidden;
     box-shadow: var(--shadow-modal);
     position: absolute;
@@ -18,7 +18,6 @@
 }
 
 /* Main modal layout styles */
-
 .inner {
     justify-content: start;
     height: 100%;
@@ -26,12 +25,12 @@
 
 .inner,
 .header {
-    composes: flex-column large-gap from '../css/layout.css';
+    composes: flexColumn generous from '../css/layout.css';
     gap: 25px;
 }
 
 .footer {
-    composes: flex-column large-gap from '../css/layout.css';
+    composes: flexColumn generous from '../css/layout.css';
     width: 100%;
     margin-top: auto;
 }
@@ -68,6 +67,27 @@
     padding: 30px 0;
 }
 
+.btnRemoveDiscount {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: var(--accent-lightest);
+    line-height: 0;
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+.btnRemoveDiscount:hover {
+    transform: scale(1.15);
+}
+
+.btnRemoveDiscount:active {
+    transform: scale(1);
+    
+}
+
 .title {
     composes: largeHeading from '../css/type.css';
     width: 100%;
@@ -82,10 +102,9 @@
     text-align: center;
 }
 
-
 .divider {
     composes: divider from '../css/layout.css';
-    composes: divider-accent from '../css/layout.css';
+    composes: dividerAccent from '../css/layout.css';
 }
 
 .overflow {
@@ -107,22 +126,37 @@
 }
 
 .rowSpaceBetween {
-    composes: flex-row from '../css/layout.css';
+    composes: flexRow from '../css/layout.css';
     justify-content: space-between;
 }
 
 .total {
-    composes: flex-row from '../css/layout.css';
+    composes: flexRow from '../css/layout.css';
     composes: emphasis from '../css/type.css';
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: -8px;
+
+    p {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        justify-content: flex-start;
+        min-height: 40px;
+    }
 }
 
 .discount {
-    display: inline;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 7px;
     font-size: 18px;
     background: var(--accent-darkest);
     color: var(--accent-vivid);
     border-radius: var(--int-br-small);
+    padding: 0;
+    margin: 0;
     padding: 5px 10px;
 }
 

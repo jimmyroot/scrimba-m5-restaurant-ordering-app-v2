@@ -1,5 +1,5 @@
 .button {
-    composes: flex-row from '../css/layout.css';
+    composes: flexRow from '../css/layout.css';
     align-items: center;
     justify-content: space-between;
     background-color: var(--accent-darkest);

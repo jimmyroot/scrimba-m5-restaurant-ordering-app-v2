@@ -1,11 +1,17 @@
+// btnviewbasket.js
+// -----------------------------------------------------------------//
+// This module handles the 'View Basket' button on the main page    //
+// -----------------------------------------------------------------//
+
 import { modalViewBasket } from '../modals/modalviewbasket'
 import styles from './btnviewbasket.module.css'
 
 const BtnViewBasket = () => {
 
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            console.log(e.target)
             handleClick(e.target.dataset.type)
         })
     }
@@ -20,15 +26,24 @@ const BtnViewBasket = () => {
         if (type) execute[type]()
     }
 
+    // Render the button html; init with some defaults if
+    // no arguments provided
     const render = (basket = [], total = "0.00") => {
-        const itemCount = basket.length
+
+        // Use the count property of each object in the basket to 
+        // get the total count
+        const itemCount = basket.length > 0 ? 
+            basket.reduce((total, item) => {
+                return total + item.count
+            }, 0) :
+            0
         
         const html = `
-            <button class="${styles['button']}" data-type="basket">
+            <button class="${styles.button}" data-type="basket">
                 <i class="bx bx-basket bx-lg"></i>
-                <span class="${styles['count']}">${itemCount}</span>
+                <span class="${styles.count}">${itemCount}</span>
                 <span>View basket</span>
-                <span class="${styles['total']}">£${total}</span>
+                <span class="${styles.total}">£${total}</span>
             <button>
         `
 

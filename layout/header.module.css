@@ -1,16 +1,16 @@
 .tagline {
-    composes: lightest from "../css/layout.css";
-    composes: small-margin-top from "../css/layout.css";
-    composes: font-size-medium from "../css/type.css";
+    color: var(--lightest);
+    margin-top: 7px;
+    font-size: 24px;
 }
 
 .header {
-    composes: flex-column large-gap align-center from "../css/layout.css"
+    composes: flexColumn generous alignCenter from "../css/layout.css";
 
 }
 
 .asides {
-    composes: font-color-lightest from "../css/styles.css";
+    color: var(--lightest);
     font-size: 20px;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .link:hover {
-    color: var(--light)
+    color: var(--light);
 }
 
 .title {

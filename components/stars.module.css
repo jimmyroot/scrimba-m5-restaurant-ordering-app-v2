@@ -16,7 +16,7 @@
 }
 
 .ul {
-    composes: flex-row large-gap ul-unstyled from '../css/layout.css';
+    composes: flexRow generous ulUnstyled from '../css/layout.css';
     background: var(--accent-darkest);
     border-radius: var(--int-br);
     align-self: center;

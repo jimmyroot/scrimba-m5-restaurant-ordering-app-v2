@@ -1,18 +1,24 @@
+// modalviewbasket.js
+// ----------------------------------------//
+// Modal to show and edit basket contents  //
+// ----------------------------------------//
+
 import { cafe } from '../app/cafe'
-import { btnViewBasket } from '../components/btnviewbasket'
 import { modalCheckout } from './modalcheckout'
 import styles from './modal.module.css'
 import basketStyles from './modalviewbasket.module.css' // Styles unique to this modal
 
 const ModalViewBasket = () => {
 
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
             handleClick(e.target, e.target.dataset.type)
         })
     }
 
-    const handleClick = ( target, type ) => {
+    const handleClick = (target, type) => {
         const execute = {
             checkout: () => {
                 hide()
@@ -22,7 +28,7 @@ const ModalViewBasket = () => {
                 hide()
             },
             clear: () => {
-                cafe.clearBasket()
+                cafe.handleReset()
                 refresh()
             },
             add: () => {
@@ -70,18 +76,18 @@ const ModalViewBasket = () => {
                 <li class="${basketStyles.item}">
                     <img class="${basketStyles.img}" src="${imageURL}">
                     <div class="${basketStyles.details}">
-                        <span class="${basketStyles.emphasis}">${count}x ${name}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </span>
+                        <span class="${basketStyles.emphasis}">${name}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </span>
                         <span class="${basketStyles.aside}">
                             ${ingredients.map(ingredient => ingredient).join(', ')}
                         </span>
-                        <span class="${basketStyles.emphasis}">£${price.toFixed(2)}</span>
+                        <span class="${basketStyles.emphasis}">£${(price * count).toFixed(2)}</span>
                     </div>
                     <div class="${basketStyles.editItem}">
-                        <button class="${basketStyles.btnSmall}" data-id="${id}" data-type="remove">
+                        <button class="${basketStyles.smallBtn}" data-id="${id}" data-type="remove">
                             <i class='bx bx-minus'></i>
                         </button>
                         ${count}
-                        <button class="${basketStyles.btnSmall}" data-id="${id}" data-type="add">
+                        <button class="${basketStyles.smallBtn}" data-id="${id}" data-type="add">
                             <i class='bx bx-plus'></i>
                         </button>
                     </div>
@@ -99,7 +105,7 @@ const ModalViewBasket = () => {
                 </div>
                 <button class="${styles.btnMain}" id="btn-checkout" data-type="checkout"
                     ${basket.length > 0 ? '' : 'disabled'}
-                >Checkout</button>
+                >Go to Checkout</button>
             </footer>
         </div>
         `)
@@ -124,10 +130,12 @@ const ModalViewBasket = () => {
         node.close()
     }
 
+    // Init base node
     const node = document.createElement('dialog')
     node.className += styles.modal
     node.id = 'modal-basket'
 
+    // Expose functions
     return {
         get,
         show,

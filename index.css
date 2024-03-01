@@ -1,5 +1,6 @@
 *, *::before, *::after {
     box-sizing: inherit;
+    /* border: 1px solid red; */
 }
 
 :root {
@@ -9,7 +10,7 @@
     --star: #FFEC51;
     --bg: #ffffff;
     /* Primary colour */
-    --darkest: #55423d;
+    --darkest: #372a27;
     --light: #E1D4D0;
     --vivid: #ff5900;
     --lightest: #fffffe;
@@ -65,7 +66,6 @@ html {
 body {
     font-family: 'Merriweather Sans', sans-serif;
     color: var(--darkest);
-    /* overflow-y: hidden; */
 }
 
 form > *,
@@ -114,7 +114,7 @@ h1, h2, h3, h4, p, ul, li, a {
     padding: 0;
 }
 
-.div-app-outer {
+.divAppOuter {
     background-color: var(--darkest);
     background-image: url('assets/beans.png');
     display: flex;

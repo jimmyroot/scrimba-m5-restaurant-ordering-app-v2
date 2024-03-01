@@ -1,4 +1,4 @@
-.font-size-medium {
+.fontSizeMedium {
     font-size: 24px;
 }
 
@@ -15,15 +15,9 @@
 .largeHeading {
     font-family: 'Crete Round', serif;
     font-size: 48px;
-    width: 100%;
-    text-align: center;
-    margin: -3px 0 0 0;
 }
 
 .smallHeading {
     color: var(--accent-darkest);
     font-size: 28px;
-    font-weight: 300;
-    width: 100%;
-    text-align: center;
 }

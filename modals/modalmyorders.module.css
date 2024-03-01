@@ -1,15 +1,17 @@
-.ul {
-    composes: flex-column large-gap ul-unstyled from '../css/layout.css';
+.orderList {
+    composes: flexColumn generous ulUnstyled from '../css/layout.css';
     padding: 0;
     width: 100%;
     margin-bottom: auto;
-}
 
-.li {
-    composes: flex-column small-gap from '../css/layout.css';
-    font-size: 18px;
-}
+    .item {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        font-size: 18px;
+    }
 
-.li p:last-of-type {
-    font-size: 18px;
+    .item p:last-of-type {
+        font-size: 18px;
+    }
 }

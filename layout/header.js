@@ -1,3 +1,8 @@
+// header.js
+// ------------------------//
+// Renders the app header  //
+// ------------------------//
+
 import styles from './header.module.css'
 
 const Header = () => {

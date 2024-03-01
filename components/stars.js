@@ -1,3 +1,11 @@
+// stars.js
+// -----------------------------------------------------------------//
+// Contains logic for rendering the star rating function, returns   //
+// 5 stars with the number of 'selected' stars as the argument for  //
+// get. i.e. after importing you could call stars.get(3) and you'll //
+// get ★★★☆☆                                                        //
+// -----------------------------------------------------------------//
+
 import styles from './stars.module.css'
 
 const Stars = () => {
@@ -45,7 +53,7 @@ const Stars = () => {
 
 
     // This works a little differently to the other modules, it returns only html, not a node
-    const get = ( numStars ) => {
+    const get = numStars => {
         starsToRender = numStars
         return render()
     }

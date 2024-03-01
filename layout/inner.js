@@ -1,3 +1,8 @@
+// inner.js
+// -----------------------------------------------------------//
+// Small module that renders the inner container of the app   //
+// -----------------------------------------------------------//
+
 import styles from './inner.module.css'
 
 const Inner = () => {

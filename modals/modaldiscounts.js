@@ -1,3 +1,8 @@
+// modaldiscounts.js
+// ---------------------------------------------------//
+// Simple modal that shows available discount codes   //
+// ---------------------------------------------------//
+
 import { cafe } from '../app/cafe'
 import { footer } from '../layout/footer'
 import styles from './modal.module.css'
@@ -6,6 +11,8 @@ import discountStyles from './modaldiscounts.module.css'
 
 const ModalDiscounts = () => { 
 
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
             handleClick(e.target.dataset.type)
@@ -17,7 +24,7 @@ const ModalDiscounts = () => {
         })
     }
 
-    const handleClick = ( type ) => {
+    const handleClick = type => {
         const execute = {
             hide: () => {
                 hide()
@@ -84,11 +91,12 @@ const ModalDiscounts = () => {
         return node
     }
 
-    // Modal scaffold
+    // Init base node
     const node = document.createElement('dialog')
     node.className += styles.modal
     node.id = 'modal-discounts'
 
+    // Expose functions
     return {
         get,
         show,

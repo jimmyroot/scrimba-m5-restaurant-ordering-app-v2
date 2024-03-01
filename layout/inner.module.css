@@ -1,6 +1,6 @@
 .inner {
-    composes: flex-column from "../css/layout.css";
-    composes: border-rounded-large from "../css/styles.css";
+    composes: flexColumn from "../css/layout.css";
+    border-radius: var(--ext-br);
     background-color: var(--lightest);
     padding: 25px 25px 15px 25px;
     min-width: 100%;

@@ -77,7 +77,7 @@
 .btnDiscount {
     composes: btn from './modal.module.css';
     position: absolute;
-    bottom: 9px;
+    bottom: 11px;
     right: 9px;
     z-index: 2;
     padding: 4px;

@@ -1,3 +1,9 @@
+// modalorderconfirmation.js
+// -------------------------------------------------//
+// Modal to show the order conrirmation and present //
+// the interface for the star rating                //
+// -------------------------------------------------//
+
 import { cafe } from '../app/cafe'
 import { stars } from '../components/stars'
 import styles from './modal.module.css'
@@ -5,13 +11,15 @@ import orderStyles from './modalorderconfirmation.module.css'
 
 const ModalOrderConfirmation = () => {
     
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
             handleClick(e.target, e.target.dataset.type)
         }
     )}
 
-    const handleClick = ( target, type ) => {
+    const handleClick = (target, type) => {
         const execute = {
             hide: () => {
                 cafe.archiveOrder()
@@ -41,14 +49,16 @@ const ModalOrderConfirmation = () => {
                 </header>
                 <p class="${orderStyles.darker}">Your order is on it's way! Thank you for visiting. We hope to see you again.</p>
                 <h4 class="${styles.subTitle}">Your order</h4>
-                <ul class="${orderStyles.ul} ${styles.overflow}" id="u-modal-order-complete-details">
+                <ul class="${orderStyles.itemList} ${styles.overflow}" id="u-modal-order-complete-details">
         `
 
         // This needs to be changed to li
         html += basket.map(item => {
+            
+            const { name, price, count } = item 
             return `
                     <li class="${styles.rowSpaceBetween}">
-                        <p>${item.count}x ${item.name}</p><p>£${item.price.toFixed(2)}</p>
+                        <p>${count}x ${name}</p><p>£${(price * count).toFixed(2)}</p>
                     </li>
             `
         }).join('')
@@ -63,7 +73,7 @@ const ModalOrderConfirmation = () => {
                     </li>
                 </ul>
                 ${stars.get(numStars)}
-                <footer class=${styles.footer}>
+                <footer class="${styles.footer}">
                     <button class="${styles.btnMain}" data-type="hide">Back to menu</button>
                 </footer>
             </div>
@@ -90,11 +100,12 @@ const ModalOrderConfirmation = () => {
         node.close()
     }
 
-    // Modal scaffold
+    // Init base node
     const node = document.createElement('dialog')
     node.className += styles.modal
     node.id = 'modal-order-confirmation'
 
+    // Expose functions
     return {
         get,
         show,

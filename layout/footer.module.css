@@ -1,9 +1,9 @@
 .navList {
-    composes: flex-row ul-unstyled space-between from '../css/layout.css';
+    composes: flexRow ulUnstyled spaceBetween from '../css/layout.css';
     padding: 0;
 
     .navItem {
-        .button {
+        .btn {
             background-color: transparent;
             align-items: center;
             border-bottom: 5px solid transparent;
@@ -12,8 +12,8 @@
             justify-content: space-between;
         }
 
-        .button:hover,
-        .button.selected {
+        .btn:hover,
+        .btn.selected {
             color: var(--accent-darkest);
             border-bottom: 5px solid var(--accent-darkest);
         }

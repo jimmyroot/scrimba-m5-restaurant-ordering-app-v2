@@ -1,43 +1,43 @@
-.flex-column {
+.flexColumn {
     display: flex;
     flex-direction: column;
 }
 
-.flex-row {
+.flexRow {
     display: flex;
     flex-direction: row;
 }
 
-.align-center {
+.alignCenter {
     align-items: center;
 }
 
-.all-center {
+.allCenter {
     align-items: center;
     justify-content: center;
 }
 
-.space-between {
+.spaceBetween {
     justify-content: space-between;
 }
 
-.justify-center {
+.justifyCenter {
     justify-content: center;
 }
 
-.small-gap {
+.tight {
     gap: 15px;
 }
 
-.medium-gap {
+.cozy {
     gap: 20px;
 }
 
-.large-gap {
+.generous {
     gap: 25px;
 }
 
-.small-margin-top {
+.smallMarginTop {
     margin-top: 7px;
 }
 
@@ -45,7 +45,7 @@
     color: var(--lightest);
 }
 
-.ul-unstyled {
+.ulUnstyled {
     list-style-type: none;
 }
 
@@ -55,10 +55,10 @@
     margin: 0 auto;
 }
 
- .divider-primary {
+ .dividerPrimary {
     border-color: var(--light);
 }
 
- .divider-accent {
+ .dividerAccent {
     border-color: var(--accent-light);
 }

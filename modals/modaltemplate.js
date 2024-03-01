@@ -1,4 +1,4 @@
-const Modal = () => { // Change this to your modal name
+const Modal = () => { // Change this to your modal name of choice
 
     // To set up a new modal, first go through the template
     // changing classes and IDs where appropriate. Then, import
@@ -11,24 +11,35 @@ const Modal = () => { // Change this to your modal name
     // Then add the event listeners
     // modal.addEventListeners()
     //
-    // Notes: You should set up any content in the renderContent function.
+    // Notes: You should set up any content in the render function.
     // Alternatively, you could create your own render function, but make
     // sure to add it to node.innerHTML before showing the modal
 
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
-            const handleClick = {
-                close: () => {
-                    hide()
-                }
-            }
-
+            const target = e.target
             const type = e.target.dataset.type
-            if (type) handleClick[type]()
+            handleClick(target, type)
         }
     )}
 
-    const renderContent = () => {
+    const handleClick = (target, type) => {
+        const execute = {
+            hide: () => {
+                hide()
+            },
+            // doSomethingElse: () => {
+            //     const id = target.dataset.id
+            //     doFunction(id)
+            // }
+        }
+
+        if (type) execute[type]()
+    }
+
+    const render = () => {
         let html = `
             <div class="modal-inner">
                 <header>
@@ -44,33 +55,35 @@ const Modal = () => { // Change this to your modal name
         return html
     }
 
-    const refreshContent = () => {
-        node.innerHTML = renderContent()
+    const refresh = () => {
+        node.innerHTML = render()
     }
 
     const show = () => {
-        refreshContent()
-        document.querySelector('#modal-id').showModal() //Modify this with id of the modal
+        refresh()
+        node.showModal() 
     }
 
     const hide = () => {
-        document.querySelector('#modal-id').close() //Modify this with id of the modal
+        node.close()
     }
 
     // Call this function to add your modal to the DOM, like...
-    // document.querySelector('element-you'll-append-modal-to).appendChild(modal.getElement())
-    const getElement = () => {
+    // document.querySelector('element-you'll-append-modal-to).appendChild(modal.get())
+    const get = () => {
         refreshContent()
         return node
     }
 
-    // Scaffold the modal, change below 'id', classList, etc as needed
+    // Initiliazae the base node, change below 'id', classList or className if using CSS Modules, etc as needed
+    // Everything else will be appended to this 'node' before it's returned in the get() function
     const node = document.createElement('dialog')
     node.classList.add('modal')
     node.id = 'modal-id'
 
+    // Expose functions
     return {
-        getElement,
+        get,
         addEventListeners,
         show,
         hide

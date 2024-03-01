@@ -1,12 +1,18 @@
+// modalcheckout.js
+// ----------------------------------------------//
+// The checkout modal and associated functions   //
+// ----------------------------------------------//
+
 import { cafe } from "../app/cafe"
 import { modalViewBasket } from "./modalviewbasket"
-import { btnViewBasket } from "../components/btnviewbasket"
 import { modalOrderConfirmation } from "./modalorderconfirmation"
 import styles from './modal.module.css'
 import checkoutStyles from './modalcheckout.module.css'
 
 const ModalCheckout = () => {
 
+    // Use this function to add the event listeners. Use 'get()' first to append
+    // this module's node to the DOM
     const addEventListeners = () => {
         node.addEventListener('click', e => {
             handleClick(e.target.dataset.type)
@@ -18,7 +24,7 @@ const ModalCheckout = () => {
         })
     }
 
-    const handleClick = ( type ) => {
+    const handleClick = type => {
         const execute = {
             pay: () => {
                 const form = document.querySelectorAll('#form-card-detail')[0]
@@ -32,16 +38,36 @@ const ModalCheckout = () => {
                 hide()
             },
             discount: () => {
+                // handle the call to cafe.handleApplyDiscount and set warning class if empty or invalid
+                const inputDiscount = document.getElementById('ipt-discount')
+
+                if (inputDiscount.value) {
+                    const discountCode = inputDiscount.value.toUpperCase()
+                    const codeIsValid = cafe.handleApplyDiscount(discountCode)
+                    
+                    if (codeIsValid) {
+                        if (inputDiscount.classList.contains(styles.warning)) inputDiscount.classList.remove(styles.warning)
+                    } else {
+                        inputDiscount.classList.add(styles.warning)
+                    }
+                    
+                } else {
+                    inputDiscount.classList.add(styles.warning)
+                }
+
+                inputDiscount.value = ''
+                refreshTotal()
+            },
+            removeDiscount: () => {
                 cafe.handleApplyDiscount()
                 refreshTotal()
-                btnViewBasket.refresh()
             }
         }
 
         if (type) execute[type]()
     }
 
-    const renderContent = () => {
+    const render = () => {
         const orderTotal = cafe.getOrderTotal()
 
         const modalHtml = `
@@ -100,7 +126,6 @@ const ModalCheckout = () => {
                 <footer class="${styles.footer}">
                     <div class="${styles.total}" id="div-checkout-total">
                         <p>Total
-                            ${cafe.renderDiscountStatus()}
                         :</p>
                         <p id="p-basket-total">£${orderTotal}</p>
                     </div>
@@ -119,8 +144,9 @@ const ModalCheckout = () => {
         return modalHtml    
     }
 
-    const refreshContent = () => {
-        node.innerHTML = renderContent()
+    const refresh = () => {
+        node.innerHTML = render()
+        refreshTotal()
     }
 
     // Function to update just the total, if we render the whole modal again
@@ -129,18 +155,19 @@ const ModalCheckout = () => {
         const orderTotal = cafe.getOrderTotal()
 
         document.querySelector('#div-checkout-total').innerHTML = `
-            <p>Total ${cafe.renderDiscountStatus()}:</p>
+            <p>Total ${cafe.renderDiscountStatus(true)}:</p>
             <p id="p-basket-total">£${orderTotal}</p>
         `
     }
 
-    const handlePayment = (form) => {
+    const handlePayment = form => {
         form.reset()
         hide()
         modalOrderConfirmation.show()
     }
 
-    const isFormComplete = (form) => {
+    const isFormComplete = form => {
+
         // Create an array of form elements filtered by value or not 
         const emptyInputs = [...form.elements].filter(element => !Boolean(element.value))
         // If there are empty elements, add warning class to them and return false
@@ -153,7 +180,7 @@ const ModalCheckout = () => {
     }
 
     const show = () => {
-        refreshContent()
+        refresh()
         node.showModal()
     }
 
@@ -165,11 +192,12 @@ const ModalCheckout = () => {
         return node
     }
 
-    // Call this when instantiating the element, probably in index.js
+    // Init base node
     const node = document.createElement('dialog')
     node.className += styles.modal
     node.id = 'modal-checkout'
 
+    // Expose functions
     return {
         get,
         show,
