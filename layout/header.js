@@ -10,7 +10,7 @@ const Header = () => {
 
     const render = () => {
         const html = `
-            <img src="assets/logo.png" alt="The Cool Beans coffee shop logo, a circle with the leaves of a coffee plant in the middle">
+            <img src="${urlLogo}" alt="The Cool Beans coffee shop logo, a circle with the leaves of a coffee plant in the middle">
             <h1 class="${styles.title}">Cool Beans</h1>
             <p class="${styles.tagline}">Coffee. Code. Hang</p>
             <p class="${styles.asides}">
