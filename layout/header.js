@@ -4,7 +4,7 @@
 // ------------------------//
 
 import styles from './header.module.css'
-import urlLogo from '../assets/logo.jpg'
+import urlLogo from '../assets/logo.png'
 
 const Header = () => {
 
